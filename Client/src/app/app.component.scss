@@ -1,0 +1,115 @@
+.main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  //font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 400;
+}
+
+.side-menu {
+  background-color: #f5f6f6;
+  border-right: solid 1px rgb(227, 229, 230);
+  color: rgb(97, 102, 103);
+
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+
+  .logo-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    .logo-text {
+      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-weight: 700;
+      position: relative;
+      top: -4px;
+    }
+
+    .logo {
+      margin-left: -20px;
+      font-size: 32px;
+      padding-right: 12px;
+    }
+  }
+
+  .filters-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    .filter-title {
+      font-weight: bold;
+      margin: 3px 0px;
+      display: inline-block;
+    }
+
+    input[type=text], input[type=number] {
+      padding: 4px;
+      font-size: 16px;
+      border-radius: 3px;
+      border: solid 1px #999999;
+
+      &::placeholder {
+        color: #BBBBBB;
+      }
+    }
+
+    .number-input {
+      width: 50px;
+    }
+
+    .filter-group {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .radio-group {
+      input {
+        display: none;
+      }
+
+      .radio-button-holder {
+
+        display: inline-block;
+
+        label {
+          display: inline-block;
+          background-color: #BDBDBD;
+          padding: 4px 10px 6px 10px;
+          border: solid 1px #999999;
+          margin: -1px;
+        }
+
+        input:checked + label {
+          background-color: #DDDDDD;
+        }
+
+        input:not(:checked) + label:hover {
+          background-color: #CCCCCC;
+        }
+
+        &:first-child label {
+          border-radius: 3px 0 0 3px;
+        }
+
+        &:last-child label {
+          border-radius: 0 3px 3px 0;
+        }
+      }
+    }
+  }
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}

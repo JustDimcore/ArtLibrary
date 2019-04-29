@@ -1,12 +1,52 @@
-<mat-toolbar color="primary">
-  <span class="mdi mdi-brush"></span>
-  <!--<mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>-->
-  <span>Sprites library</span>
-  <span class="example-spacer"></span>
-</mat-toolbar>
+<!--<mat-toolbar color="primary">-->
+<!--<span class="mdi mdi-brush logo"></span>-->
+<!--<mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>-->
+<!--<span>Sprites library</span>-->
+<!--<span class="example-spacer"></span>-->
+<!--</mat-toolbar>-->
 
-<div>
-  <mat-form-field>
-    <input matInput placeholder="Input">
-  </mat-form-field>
+<div class="main-container">
+  <div class="side-menu">
+    <div class="logo-container">
+      <span class="mdi mdi-brush logo"></span>
+      <span class="logo-text">Sprites library</span>
+    </div>
+
+    <div class="filters-container">
+      <input type="text" placeholder="Name, tag, atlas, etc.">
+
+      <div class="filter-group">
+        <span class="filter-title">Alpha</span><br>
+        <div class="radio-group">
+          <div class="radio-button-holder">
+            <input id="alpha-any" name="alpha-radio" type="radio" value="any" checked><label for="alpha-any">Any</label>
+          </div>
+          <div class="radio-button-holder">
+            <input id="alpha-yes" name="alpha-radio" type="radio" value="no"><label for="alpha-yes">Yes</label>
+          </div>
+          <div class="radio-button-holder">
+            <input id="alpha-no" name="alpha-radio" type="radio" value="yes"><label for="alpha-no">No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-title">Min size</span>
+        <div>
+          <input class="number-input" type="text" placeholder="Any"> x
+          <input class="number-input" type="text" placeholder="Any"> px
+        </div>
+
+        <span class="filter-title">Max size</span>
+        <div>
+          <input class="number-input" type="text" placeholder="Any"> x
+          <input class="number-input" type="text" placeholder="Any"> px
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    Main content
+  </div>
 </div>
