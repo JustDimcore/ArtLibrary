@@ -1,0 +1,16 @@
+<div class="filter-group">
+  <span class="filter-title">Alpha</span><br>
+  <div class="radio-group">
+    <div *ngFor="let item of items" class="radio-button-holder">
+        <input
+          name="radio"
+          type="radio"
+          [id]="item.value"
+          [value]="item.value"
+          [checked]="item.value === selectedValue"
+          (change)="onSelectionChange($event)"
+        >
+        <label [for]="item.value">{{item.text}}</label>
+    </div>
+  </div>
+</div>

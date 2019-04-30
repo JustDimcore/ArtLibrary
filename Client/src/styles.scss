@@ -2,3 +2,36 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 $mdi-font-path: "~@mdi/font/fonts";
 @import "~@mdi/font/scss/materialdesignicons.scss";
+
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+
+  .filter-title {
+    font-weight: bold;
+    margin: 3px 0px;
+    display: inline-block;
+  }
+
+  input[type=text], input[type=number] {
+    padding: 4px;
+    font-size: 16px;
+    border-radius: 3px;
+    border: solid 1px #999999;
+
+    &::placeholder {
+      color: #BBBBBB;
+    }
+  }
+
+  .number-input {
+    width: 50px;
+  }
+
+  .filter-group {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+}

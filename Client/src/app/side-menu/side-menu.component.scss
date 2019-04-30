@@ -1,0 +1,33 @@
+.side-menu {
+  background-color: #f5f6f6;
+  border-right: solid 1px rgb(227, 229, 230);
+  color: rgb(97, 102, 103);
+
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+
+  .logo-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    .logo-text {
+      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-weight: 700;
+      position: relative;
+      top: -4px;
+    }
+
+    .logo {
+      margin-left: -20px;
+      font-size: 32px;
+      padding-right: 12px;
+    }
+
+    &:active, &:link, &:hover, &:visited {
+      color: rgb(97, 102, 103);
+      text-decoration: none;
+    }
+  }
+}
