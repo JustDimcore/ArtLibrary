@@ -10,6 +10,7 @@ import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { ZeroIsAnyDirective } from './directives/zeroIsAnyDirective';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SpriteFinderComponent } from './sprite-finder/sprite-finder.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -29,9 +30,10 @@ import { SpriteFinderComponent } from './sprite-finder/sprite-finder.component';
     MatToolbarModule,
     MatIconModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -11,13 +11,10 @@
     "watch": "npm-run-all --parallel watch-ts watch-node",
     "watch-node": "nodemon dist/*.js",
     "watch-ts": "tsc -w",
-
-    "start-full":"npm-run-all --parallel start-server start-client-dev",
-
+    "start-full": "npm-run-all --parallel start-server start-client-dev",
     "start-client-dev": "npm run start-on-server --prefix ../Client",
     "build-client-dev": "npm run build-on-server --prefix ../Client",
     "build-client-prod": "npm run build-on-server-prod --prefix ../Client",
-
     "build-full-dev": "npm-run-all --parallel build-ts build-client",
     "build-full-prod": "npm-run-all --parallel build-ts build-client-prod"
   },

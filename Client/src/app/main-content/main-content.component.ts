@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-main-content',
@@ -17,12 +18,14 @@ export class MainContentComponent implements OnInit {
     this.fillList();
   }
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
   }
 
   fillList() {
-    console.log('fillList');
+    this.httpClient.get('localhost:3000/list').subscribe(res => {
+      console.log(res);
+    });
   }
 }
