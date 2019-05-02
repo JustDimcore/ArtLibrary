@@ -8,30 +8,113 @@ $mdi-font-path: "~@mdi/font/fonts";
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+}
 
-  .filter-title {
-    font-weight: bold;
-    margin: 3px 0px;
-    display: inline-block;
+.filter-title {
+  font-weight: bold;
+  margin: 3px 0px;
+  display: inline-block;
+
+  .mdi {
+    font-size: 20px;
+  }
+}
+
+input[type=text], input[type=number] {
+  padding: 4px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: solid 1px #999999;
+
+  &::placeholder {
+    color: #BBBBBB;
+  }
+}
+
+.number-input {
+  width: 50px;
+}
+
+.filter-group {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.input-with-button {
+  input {
+    width: 180px;
   }
 
-  input[type=text], input[type=number] {
-    padding: 4px;
-    font-size: 16px;
+  button {
+    position: relative;
+    top: 2px;
     border-radius: 3px;
-    border: solid 1px #999999;
+    border: solid 1px #999;
+    margin-left: 5px;
+    background-color: #EEE;
+    font-size: 21px;
 
-    &::placeholder {
-      color: #BBBBBB;
+    &:hover {
+      background-color: #DDD;
+    }
+
+    &:active {
+      background-color: #EEE;
     }
   }
+}
 
-  .number-input {
-    width: 50px;
+.preset-link {
+  display: block;
+  margin: 5px 0px;
+  position: relative;
+
+  .preset-icon {
+    font-size: 16px;
+    margin-right: 5px;
   }
 
-  .filter-group {
-    margin-top: 20px;
-    font-size: 14px;
+  .link-text {
+    border-bottom: dashed 1px #999;
+    display: inline-block;
+    width: 180px;
+    height: 20px;
+    overflow: hidden;
+    top: 3px;
+    position: relative;
   }
+
+  .remove-button {
+    font-size: 20px;
+    position: absolute;
+    right: 0;
+  }
+
+  a {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      color: #666666;
+    }
+
+    &:active {
+      color: #999999;
+    }
+  }
+}
+
+.space-5 {
+  margin-top: 4px;
+  height: 1px;
+}
+
+.space-10 {
+  margin-top: 9px;
+  height: 1px;
+}
+
+.space-20 {
+  margin-top: 19px;
+  height: 1px;
 }

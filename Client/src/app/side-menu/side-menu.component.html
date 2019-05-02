@@ -1,26 +1,62 @@
 <div class="side-menu">
-  <a class="logo-container" href='#'>
-    <span class="mdi mdi-brush logo"></span>
+  <a class="logo-container" href='#' (click)="resetForm()">
+    <span class="mdi mdi-image-multiple logo"></span>
     <span class="logo-text">Sprites library</span>
   </a>
-
   <div class="filters-container">
-    <input #searchInput type="text" placeholder="Name, tag, atlas, etc.">
-    <app-radio-group [items]="alphaFilterItems" [selectedValue]="alphaFilterValue" (selectedValueChange)="onChange('alphaFilterValue', $event)">
-    </app-radio-group>
-
-    <div class="filter-group">
-      <span class="filter-title">Min size</span>
-      <div>
-        <input class="number-input" type="text" placeholder="Any"> x
-        <input class="number-input" type="text" placeholder="Any"> px
+    <form [formGroup]="form">
+      <input #searchInput type="text" placeholder="Name, tag, atlas, etc." formControlName="search">
+      <div (click)="showHelp()" class="help-button"><span class="mdi mdi-help-circle"></span>
+      <div class="help-box" [ngStyle]="{display: displayHelp ? 'block' : 'none'}">
+        <div class="arrow-left"></div>
+        Write multiple filters comma separated i.e. <a href="#" (click)="setExample()" class="search-example">{{searchExample}}</a>
+      </div>
       </div>
 
-      <span class="filter-title">Max size</span>
-      <div>
-        <input class="number-input" type="text" placeholder="Any"> x
-        <input class="number-input" type="text" placeholder="Any"> px
+      <div class="filter-group">
+        <span class="filter-title"><span class="mdi mdi-texture"></span> Alpha</span><br>
+        <app-radio-group [items]="alphaFilterItems" formControlName="alpha"></app-radio-group>
       </div>
-    </div>
+
+      <div class="filter-group">
+        <span class="filter-title"><span class="mdi mdi-grid"></span> Sliced</span><br>
+        <app-radio-group [items]="sliceFilterItems" formControlName="slice"></app-radio-group>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-title"><span class="mdi mdi-arrow-collapse"></span> Min size</span>
+        <div>
+          <input class="number-input" type="number" min="0" placeholder="Any" formControlName="xMin" appZeroIsAny> x
+          <input class="number-input" type="number" min="0" placeholder="Any" formControlName="yMin" appZeroIsAny> px
+        </div>
+        <div class="space-10"></div>
+        <span class="filter-title"><span class="mdi mdi-arrow-expand"></span> Max size</span>
+        <div>
+          <input class="number-input" type="number" min="0" placeholder="Any" formControlName="xMax" appZeroIsAny> x
+          <input class="number-input" type="number" min="0" placeholder="Any" formControlName="yMax" appZeroIsAny> px
+        </div>
+      </div>
+
+      <div class="space-20"></div>
+      <div class="space-20"></div>
+      <div class="filter-group">
+        <span class="filter-title"><span class="mdi mdi-wunderlist"></span> Presets</span><br>
+        <div class="input-with-button">
+          <input type="text" placeholder="Preset name" [(ngModel)]="presetName" [ngModelOptions]="{standalone: true}">
+          <button (click)="savePreset()"><span class="mdi mdi-content-save"></span></button>
+        </div>
+        <div>
+          <div *ngFor="let preset of presets; let i = index" class="preset-link">
+            <a href="#" (click)="loadPreset(i)">
+              <span class="mdi mdi-bookmark preset-icon"></span>
+              <span class="link-text">{{preset.presetName}}</span>
+            </a>
+            <a class="remove-button" href="#" (click)="removePreset(i)">
+              <span class="mdi mdi-close"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
