@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import path from "path";
 import { FileService } from "./filesService";
 
@@ -15,11 +15,17 @@ filesList.forEach(file => console.log(path.join(directoryPath, file)));
 console.log(`got files list: ${filesList.length} files`);
 
 // Start listening
-app.get('/', (req: any, res: any) => {
-  res.send('Hello World!');
+app.get('/', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'public/client/index.html'));
 });
 
-app.use(express.static(path.join(__dirname, artPath)));
+app.get('/list', (req: Request, res: Response) => {
+  res.send(filesList);
+})
+
+app.use('/art', express.static(path.join(__dirname, 'public/art/')));
+
+app.use(express.static(path.join(__dirname, 'public/client/')));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);

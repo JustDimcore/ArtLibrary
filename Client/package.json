@@ -7,7 +7,13 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+
+    "start-on-server": "ng build --output-path ../server/dist/public/client --watch",
+    "build-on-server": "ng build --output-path ../server/dist/public/client",
+
+    "build-on-server-prod": "ng build --prod --output-path ../server/dist/public/client",
+    "start-on-server-prod": "ng build --prod --output-path ../server/dist/public/client --watch"
   },
   "private": true,
   "dependencies": {

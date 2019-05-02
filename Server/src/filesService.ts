@@ -7,7 +7,10 @@ export class FileService {
   private _isDirty = true;
 
   constructor(private _dirPath: string) {
-
+    fs.watch(_dirPath, {recursive : true} ,(event, filename) => {
+      console.log(filename);
+      console.log(event);
+    });
   }
 
   public getFilePaths() {
@@ -18,6 +21,9 @@ export class FileService {
   }
 
   public refreshFilesList() {
+    if (!fs.existsSync(this._dirPath)){
+      fs.mkdirSync(this._dirPath, {recursive: true});
+    }
     this._filesList = this.getFilesList();
     this._isDirty = false;
   }
