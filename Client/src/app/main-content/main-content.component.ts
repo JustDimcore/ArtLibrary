@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-main-content',
@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainContentComponent implements OnInit {
 
+  private _filters: any;
+  @Input()
+  get filters() {
+    return this._filters;
+  }
+  set filters(value: any) {
+    this._filters = value;
+    this.fillList();
+  }
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  fillList() {
+    console.log('fillList');
+  }
 }

@@ -9,6 +9,7 @@ import { MainContentComponent } from './main-content/main-content.component';
 import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { ZeroIsAnyDirective } from './directives/zeroIsAnyDirective';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SpriteFinderComponent } from './sprite-finder/sprite-finder.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     SideMenuComponent,
     MainContentComponent,
     RadioGroupComponent,
-    ZeroIsAnyDirective
+    ZeroIsAnyDirective,
+    SpriteFinderComponent
   ],
   imports: [
     BrowserModule,

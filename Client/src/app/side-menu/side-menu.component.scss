@@ -1,6 +1,6 @@
 .side-menu {
   height: 100%;
-  background-color: #f5f6f6;
+  background-color: #F0F0F0;
   border-right: solid 1px rgb(227, 229, 230);
   color: rgb(97, 102, 103);
 
@@ -40,6 +40,13 @@
 
     span {
       font-size: 20px;
+
+      &:hover {
+        color: #999999;
+      }
+      &:active {
+        color: #888888;
+      }
     }
   }
 

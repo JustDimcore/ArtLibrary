@@ -1,6 +1,6 @@
-import {Component, OnInit, HostListener, ViewChild, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
-import {RadioGroupItem} from '../radio-group/radio-group.component';
+import {Component, OnInit, HostListener, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 export enum SimpleState {
   Any = 'Any',
@@ -45,28 +45,45 @@ export class SideMenuComponent implements OnInit {
   };
 
   presetName: string;
-
   presets = [];
+
+  @Output() filterChange = new EventEmitter();
+
+  private _skipHelpHiding = false;
 
   constructor() {
     this.resetForm();
   }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(ch => console.log(ch));
+    this.form.valueChanges
+      .pipe(
+        debounceTime(100)
+      )
+      .subscribe(ch => this.onChange());
     this.loadPresetFromStorage();
   }
 
   @HostListener('window:keydown', ['$event'])
   keydown(event: KeyboardEvent) {
+    // F3 and ctrl+f
     if (event.keyCode === 114 || (event.ctrlKey && event.keyCode === 70)) {
       event.preventDefault();
       this.selectSearchField();
+    }
+    // ctrl+S
+    else if(event.ctrlKey && event.keyCode === 83){
+      this.savePreset();
+      event.preventDefault();
     }
   }
 
   @HostListener('window:click', ['$event'])
   click(event) {
+    if (this._skipHelpHiding) {
+      this._skipHelpHiding = false;
+      return;
+    }
     if (this.displayHelp) {
       this.displayHelp = false;
     }
@@ -79,6 +96,7 @@ export class SideMenuComponent implements OnInit {
 
   onChange() {
     console.log('changed');
+    this.filterChange.emit(this.getCurrentPreset());
   }
 
   changeFilter(field: string, value: any) {
@@ -87,9 +105,8 @@ export class SideMenuComponent implements OnInit {
   }
 
   showHelp() {
-    setTimeout(() => {
-      this.displayHelp = !this.displayHelp;
-    });
+    this.displayHelp = !this.displayHelp;
+    this._skipHelpHiding = true;
   }
 
   setExample() {
@@ -98,9 +115,11 @@ export class SideMenuComponent implements OnInit {
 
   savePreset() {
     const preset = this.getCurrentPreset();
-    console.log(preset);
     let newPresetName = this.presetName || this.form.controls.search.value || this.defaultPresetName;
     newPresetName = newPresetName.trim();
+    if(newPresetName.length > 20) {
+      newPresetName = newPresetName.slice(0, 20) + '...';
+    }
     let count = 1;
     let temp = newPresetName;
     while (this.presets.find(pr => pr.presetName === temp)) {
