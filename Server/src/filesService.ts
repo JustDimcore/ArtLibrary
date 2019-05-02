@@ -18,16 +18,17 @@ export class FileService {
   }
 
   public refreshFilesList() {
-    this._filesList = this.getFilesList(this._dirPath);
+    this._filesList = this.getFilesList();
     this._isDirty = false;
   }
   
-  private getFilesList(filePath: string, outputList?: string[]): string[] {
+  private getFilesList(filePath?: string, outputList?: string[]): string[] {
+    filePath = filePath || '';
     const list = outputList || [];
-    var stats = fs.lstatSync(filePath);
+    var stats = fs.lstatSync(path.join(this._dirPath, filePath));
     if(stats.isDirectory())
     {
-      const files = fs.readdirSync(filePath);
+      const files = fs.readdirSync(path.join(this._dirPath, filePath));
       files.forEach(file => this.getFilesList(path.join(filePath, file), list))
     }
     else

@@ -3,18 +3,24 @@ import path from "path";
 import { FileService } from "./filesService";
 
 // App init
+var artPath = 'public/art';
+const port = process.env.PORT || 3000;
 var app = express();
 
 // Get files list
-const directoryPath = path.join(__dirname, 'art');
+const directoryPath = path.join(__dirname, artPath);
 const fileService = new FileService(directoryPath);
-fileService.getFilePaths().forEach(file => console.log(file));
+const filesList = fileService.getFilePaths();
+filesList.forEach(file => console.log(path.join(directoryPath, file)));
+console.log(`got files list: ${filesList.length} files`);
 
 // Start listening
 app.get('/', (req: any, res: any) => {
   res.send('Hello World!');
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+app.use(express.static(path.join(__dirname, artPath)));
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}!`);
 });
