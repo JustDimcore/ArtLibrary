@@ -45,4 +45,4 @@ async function init() {
   });
 }
 
-init();
+init().then();

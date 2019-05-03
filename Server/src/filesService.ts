@@ -52,7 +52,7 @@ export class FileService {
       const sprite = {} as SpriteInfo;
       sprite.path = filePath;
       sprite.name = path.basename(filePath);
-      sprite.meta = await sharp(filePath).metadata();
+      sprite.meta = await sharp(fullPath).metadata();
 
       if(fs.existsSync(fullPath + '.json')) {
         const buffer = fs.readFileSync(fullPath + '.json');
