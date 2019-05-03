@@ -1,8 +1,10 @@
+@import "../../variables.scss";
+
 .side-menu {
   height: 100%;
-  background-color: #F0F0F0;
-  border-right: solid 1px rgb(227, 229, 230);
-  color: rgb(97, 102, 103);
+  background-color: $light-background;
+  border-right: $light-border;
+  color: $text-color;
 
   padding: 14px;
   display: flex;
@@ -27,7 +29,7 @@
     }
 
     &:active, &:link, &:hover, &:visited {
-      color: rgb(97, 102, 103);
+      color: $text-color;
       text-decoration: none;
     }
   }
@@ -42,10 +44,10 @@
       font-size: 20px;
 
       &:hover {
-        color: #999999;
+        color: $light-text-color;
       }
       &:active {
-        color: #888888;
+        color: $text-color;
       }
     }
   }
@@ -55,15 +57,16 @@
     position: absolute;
     top: -10px;
     left: 35px;
-    background-color: #DDD;
+    background-color: $dark-background;
     padding: 12px 20px;
     border-radius: 5px;
     font-size: 14px;
+    z-index: 5;
 
     .search-example {
-      border-bottom: dashed 1px black;
+      border-bottom: dashed 1px #{$dark-text-color};
       text-decoration: none;
-      color: black;
+      color: $dark-text-color;
     }
 
     .arrow-left {
@@ -72,7 +75,7 @@
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;
 
-      border-right:10px solid #DDD;
+      border-right: 10px solid #{$dark-background};
 
       left: -9px;
       position: absolute;

@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .content {
   flex-grow: 1;
   padding: 20px;
@@ -14,7 +16,7 @@
   vertical-align: top;
   display: inline-block;
   position: relative;
-  background-color: #DDD;
+  background-color: $dark-background;
   padding: 10px;
   margin: 10px;
   border-radius: 3px;
@@ -32,27 +34,56 @@
     vertical-align: middle;
     text-align: center;
 
-    .sprite-info {
-      display: none;
+    .sprite-size {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 2px 8px 0px 0px;
+      background-color: #DDD;
+      border-radius: 0px 5px 0px 0px;
+      font-size: 10pt;
+      color: #333;
+    }
+
+    .hidden-sprite-info {
+      opacity: 0;
+      display: block;
+      transition-property: opacity;
+      transition-duration: 0.15s;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(100,100,100,0.8);
+
+      .button {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        font-size: 22px;
+        color: $dark-text-color;
+        background-color: $dark-background;
+        border-radius: 3px;
+
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+
+        &:hover {
+          background-color: $light-background;
+        }
+
+        &:active {
+          background-color: $dark-background;
+        }
+      }
     }
 
     &:hover {
       .sprite-info {
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-
-        background-color: rgba(100,100,100,0.8);
-
-        .button {
-          display: inline-block;
-          width: 50px;
-          height: 50px;
-          font-size: 20px;
-        }
+        opacity: 1;
       }
     }
   }
@@ -66,7 +97,7 @@
     height: $image-name-height;
     display: block;
     position: relative;
-    top: 5px;
-    color: #333333;
+    top: 7px;
+    color: $dark-text-color;
   }
 }

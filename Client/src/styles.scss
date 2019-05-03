@@ -2,6 +2,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 $mdi-font-path: "~@mdi/font/fonts";
 @import "~@mdi/font/scss/materialdesignicons.scss";
+@import "variables.scss";
 
 
 .filters-container {
@@ -24,10 +25,10 @@ input[type=text], input[type=number] {
   padding: 4px;
   font-size: 16px;
   border-radius: 3px;
-  border: solid 1px #999999;
+  border: $dark-border;
 
   &::placeholder {
-    color: #BBBBBB;
+    color: $placeholder-color;
   }
 }
 
@@ -49,17 +50,18 @@ input[type=text], input[type=number] {
     position: relative;
     top: 2px;
     border-radius: 3px;
-    border: solid 1px #999;
+    border: $dark-border;
     margin-left: 5px;
-    background-color: #EEE;
+    background-color: $button;
     font-size: 21px;
+    color: $dark-text-color;
 
     &:hover {
-      background-color: #DDD;
+      background-color: $button-hover;
     }
 
     &:active {
-      background-color: #EEE;
+      background-color: $button-active;
     }
   }
 }
@@ -75,7 +77,7 @@ input[type=text], input[type=number] {
   }
 
   .link-text {
-    border-bottom: dashed 1px #999;
+    border-bottom: dashed 1px #{$light-text-color};
     display: inline-block;
     width: 180px;
     height: 20px;
@@ -91,15 +93,15 @@ input[type=text], input[type=number] {
   }
 
   a {
-    color: black;
+    color: $dark-text-color;
     text-decoration: none;
 
     &:hover {
-      color: #666666;
+      color: $text-color;
     }
 
     &:active {
-      color: #999999;
+      color: $light-text-color;
     }
   }
 }

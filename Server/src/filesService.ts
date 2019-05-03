@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { SpriteInfo } from "./spriteInfo";
+import sharp from "sharp";
 
 export class FileService {
 
@@ -21,23 +22,23 @@ export class FileService {
     });
   }
 
-  public getFilePaths() {
+  public async getFilePaths() {
     if(this._isDirty)
-      this.refreshFilesList();
+      await this.refreshFilesList();
     
     return this._filesList;
   }
 
-  public refreshFilesList() {
+  public async refreshFilesList() {
     if (!fs.existsSync(this._dirPath)){
       fs.mkdirSync(this._dirPath, {recursive: true});
       this.watch();
     }
-    this._filesList = this.getFilesList();
+    this._filesList = await this.getFilesList();
     this._isDirty = false;
   }
   
-  private getFilesList(filePath?: string, outputList?: SpriteInfo[]): SpriteInfo[] {
+  private async getFilesList(filePath?: string, outputList?: SpriteInfo[]): Promise<SpriteInfo[]> {
     filePath = filePath || '';
     const list = outputList || [];
     const fullPath = path.join(this._dirPath, filePath);
@@ -51,11 +52,13 @@ export class FileService {
       const sprite = {} as SpriteInfo;
       sprite.path = filePath;
       sprite.name = path.basename(filePath);
+      sprite.meta = await sharp(filePath).metadata();
+
       if(fs.existsSync(fullPath + '.json')) {
         const buffer = fs.readFileSync(fullPath + '.json');
-        if(buffer)
-          sprite.meta = buffer.toJSON();
+        sprite.json = buffer.toJSON();
       }
+
       list.push(sprite);
     }
 
