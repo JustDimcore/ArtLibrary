@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  backendUrl: "http://localhost:3000",
-  cdnUrl: "http://localhost:3000/art/"
+  backendUrl: 'http://localhost:3000',
+  cdnUrl: 'http://localhost:3000/art/'
 };
 
 /*

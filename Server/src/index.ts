@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import path from "path";
 import { FileService } from "./filesService";
 import cors from 'cors';
+import { SpriteMetaService } from "./spriteMetaService";
+import { FilterService } from "./filterService";
 
 // App init
 var artPath = 'public/art';
@@ -11,7 +13,9 @@ var app = express();
 async function init() {
   // Get files list
   const directoryPath = path.join(__dirname, artPath);
-  const fileService = new FileService(directoryPath);
+  const projectMetaService = new SpriteMetaService();
+  const fileService = new FileService(directoryPath, projectMetaService);
+  const filterService = new FilterService();
   const filesList = await fileService.getFilePaths();
   console.log(`got files list: ${filesList.length} files`);
 
@@ -23,12 +27,8 @@ async function init() {
   });
 
   app.get('/search', (req: Request, res: Response) => {
-    var query = req.query['query'];
-    var searchParams = !query ? null : query.split(',')
-      .map((q: string) => q.trim().toLowerCase())
-      .filter((q: string) => q);
-    var result = searchParams ? filesList.filter(sprite => searchParams.some((q: string) => sprite.name.toLowerCase().includes(q))) : filesList;
-    res.send(result);
+    const filtered = req.query ? filterService.filter(filesList, req.query) : filesList;    
+    res.send(filtered);
   });
 
   app.get('/list', (req: Request, res: Response) => {

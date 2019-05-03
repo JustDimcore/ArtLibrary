@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { SpriteInfo } from "./spriteInfo";
 import sharp from "sharp";
+import { SpriteMetaService } from "./spriteMetaService";
 
 export class FileService {
 
@@ -9,7 +10,7 @@ export class FileService {
   private _isDirty = true;
   private extensions = ['.jpeg','.png','.jpg','.bmp','.gif'];
 
-  constructor(private _dirPath: string) {
+  constructor(private _dirPath: string, private _projectMetaService: SpriteMetaService) {
     if (fs.existsSync(this._dirPath)){
       this.watch();
     }
@@ -56,10 +57,7 @@ export class FileService {
       sprite.name = path.basename(filePath);
       sprite.meta = await sharp(fullPath).metadata();
 
-      if(fs.existsSync(fullPath + '.json')) {
-        const buffer = fs.readFileSync(fullPath + '.json');
-        sprite.json = buffer.toJSON();
-      }
+      sprite.projectMeta = this._projectMetaService.getSpriteMeta(fullPath);
       list.push(sprite);
     }
     return list;

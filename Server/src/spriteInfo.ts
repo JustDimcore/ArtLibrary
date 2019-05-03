@@ -1,6 +1,8 @@
+import { Metadata } from "sharp";
+
 export class SpriteInfo {
     name: string;
     path: string;
-    json: any;
-    meta: any;
+    projectMeta: any;
+    meta: Metadata;
 }

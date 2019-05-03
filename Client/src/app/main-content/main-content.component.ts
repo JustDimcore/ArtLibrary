@@ -27,10 +27,13 @@ export class MainContentComponent implements OnInit {
   }
 
   fillList() {
-    this.httpClient.get(environment.backendUrl + '/search?query=' + (this._filters ? this._filters.search || '' : '')).subscribe((res: any[]) => {
-      res.forEach(sprite => sprite.path = environment.cdnUrl + sprite.path);
-      this.sprites = res;
-      console.log(res);
-    });
+    const params = this._filters || {};
+
+    this.httpClient.get(environment.backendUrl + '/search', { params })
+      .subscribe((res: any[]) => {
+        res.forEach(sprite => sprite.path = environment.cdnUrl + sprite.path);
+        this.sprites = res;
+        console.log(res);
+      });
   }
 }
