@@ -1,3 +1,15 @@
 <div class="content">
-  Main content
+  <div class="sprite-container" *ngFor="let sprite of sprites">
+    <!-- <a [href]="sprite.path" download target="_blank"> -->
+      <div class="sprite-img-holder">
+        <img class="sprite-img" [src]="sprite.path">
+        <div class="sprite-info">
+          <a class="button" [href]="sprite.path" download target="_blank">
+            <span class="mdi mdi-bookmark preset-icon"></span>
+          </a>
+        </div>
+      </div>
+    <!-- </a> -->
+    <span class="sprite-name">{{sprite.name}}</span>
+  </div>
 </div>

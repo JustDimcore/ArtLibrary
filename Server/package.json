@@ -28,6 +28,8 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
+    "@types/cors": "^2.8.5",
+    "cors": "^2.8.5",
     "express": "^4.16.4"
   }
 }

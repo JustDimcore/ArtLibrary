@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import { FileService } from "./filesService";
+import cors from 'cors';
+import { request } from "http";
 
 // App init
 var artPath = 'public/art';
@@ -15,28 +17,19 @@ filesList.forEach(file => console.log(file));
 console.log(`got files list: ${filesList.length} files`);
 
 // Start listening
-app.use((req, res, next) => {
-
-  console.log('set headers');
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-  // Pass to next layer of middleware
-  next();
-});
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'public/client/index.html'));
+});
+
+app.get('/search', (req: Request, res: Response) => {
+  var query = req.query['query'];
+  var searchParams = !query ? null : query.split(',')
+    .map((q: string) => q.trim().toLowerCase())
+    .filter((q: string) => q);
+  var result = searchParams ? filesList.filter(sprite => searchParams.some((q: string) => sprite.name.toLowerCase().includes(q))) : filesList;
+  res.send(result);
 });
 
 app.get('/list', (req: Request, res: Response) => {
