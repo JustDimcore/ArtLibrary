@@ -46,7 +46,9 @@ export class FileService {
     if(stats.isDirectory())
     {
       const files = fs.readdirSync(fullPath);
-      files.forEach(file => this.getFilesList(path.join(filePath, file), list))
+      for(const file of files) {
+        await this.getFilesList(path.join(filePath, file), list);
+      }
     }
     else if(this.isNeededExtension(filePath)){
       const sprite = {} as SpriteInfo;
@@ -58,10 +60,8 @@ export class FileService {
         const buffer = fs.readFileSync(fullPath + '.json');
         sprite.json = buffer.toJSON();
       }
-
       list.push(sprite);
     }
-
     return list;
   }
 

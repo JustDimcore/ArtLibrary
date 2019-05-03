@@ -13,7 +13,6 @@ async function init() {
   const directoryPath = path.join(__dirname, artPath);
   const fileService = new FileService(directoryPath);
   const filesList = await fileService.getFilePaths();
-  filesList.forEach(file => console.log(file));
   console.log(`got files list: ${filesList.length} files`);
 
   // Start listening
