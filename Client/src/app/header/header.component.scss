@@ -1,0 +1,112 @@
+@import "../../variables.scss";
+
+:host {
+  display: block;
+}
+
+:host > div {
+  background-color: $light-background;
+  border: $light-border;
+  height: 100%;
+  box-sizing: border-box;
+
+  position: relative;
+}
+
+.logo-container {
+
+  width: $side-panel-width;
+  display: inline-block;
+  margin: 0px 20px 0px 10px;
+
+  .logo-link {
+    top: 6px;
+    position: relative;
+
+    .logo-text {
+      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-weight: 700;
+      position: relative;
+      top: -5px;
+    }
+
+    .logo {
+      font-size: 32px;
+      padding-right: 12px;
+    }
+
+    &:active, &:link, &:hover, &:visited {
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
+}
+
+.search-form {
+  position: absolute;
+  left: $side-panel-width;
+  margin-left: 20px;
+  height: 100%;
+  display: flex;
+  right: 245px;
+  top: 0;
+
+  input {
+    flex-grow: 1;
+    height: 34px;
+    top: 12px;
+    position: relative;
+    padding: 7px;
+    box-sizing: border-box;
+  }
+}
+
+.help-button {
+  position: relative;
+  margin-left: 5px;
+  position: relative;
+  top: 15px;
+
+  span {
+    font-size: 20px;
+
+    &:hover {
+      color: $light-text-color;
+    }
+    &:active {
+      color: $text-color;
+    }
+  }
+}
+
+.help-box {
+
+  $width: 200px;
+
+  width: $width;
+  position: absolute;
+  top: 35px;
+  left: -#{$width/2};
+  background-color: $dark-background;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 5;
+
+  .search-example {
+    border-bottom: dashed 1px #{$dark-text-color};
+    text-decoration: none;
+    color: $dark-text-color;
+  }
+
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid #{$dark-background};
+    left: #{$width/2};
+    position: absolute;
+    top: -10px;
+  }
+}

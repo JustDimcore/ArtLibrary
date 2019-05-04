@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import {Observable} from 'rxjs/index';
+import {FilterService} from '../services/filter.service';
 
 @Component({
   selector: 'app-main-content',
@@ -9,31 +9,12 @@ import { environment } from 'src/environments/environment';
 })
 export class MainContentComponent implements OnInit {
 
-  private _filters: any;
-  @Input()
-  get filters() {
-    return this._filters;
-  }
-  set filters(value: any) {
-    this._filters = value;
-    this.fillList();
-  }
+  sprites: Observable<any[]>;
 
-  sprites: any[];
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private _filterService: FilterService) { }
 
   ngOnInit() {
-  }
-
-  fillList() {
-    const params = this._filters || {};
-
-    this.httpClient.get(environment.backendUrl + '/search', { params })
-      .subscribe((res: any[]) => {
-        res.forEach(sprite => sprite.path = environment.cdnUrl + sprite.path);
-        this.sprites = res;
-        console.log(res);
-      });
+    this.sprites = this._filterService.spritesSource;
+    this._filterService.loadSpritesInfo();
   }
 }

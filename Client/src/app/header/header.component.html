@@ -1,0 +1,21 @@
+<div>
+
+  <div class="logo-container">
+    <a class="logo-link" href='#'>
+      <span class="mdi mdi-image-multiple logo"></span>
+      <span class="logo-text">Sprites library</span>
+    </a>
+  </div>
+
+  <form class="search-form" [formGroup]="form">
+    <input #searchInput type="text" placeholder="Name, tag, atlas, etc." formControlName="search">
+    <div class="help-button">
+      <span (click)="showHelp()" class="mdi mdi-help-circle"></span>
+      <div class="help-box" [ngStyle]="{display: displayHelp ? 'block' : 'none'}">
+        <div class="arrow-left"></div>
+        <b>Ctrl+F</b> or <b>F3</b> to focus on search string<br>
+        Write multiple filters comma separated i.e. <a href="#" (click)="setExample()" class="search-example">{{searchExample}}</a>
+      </div>
+    </div>
+  </form>
+</div>

@@ -4,11 +4,14 @@ $dark-text-color: #333333;
 
 $placeholder-color: #BBB;
 
+$border-width: 1px;
+$side-panel-width: 260px;
+
 $main-background: white;
 $light-background: #EEE;
-$light-border: solid 1px #DDD;
+$light-border: solid #{$border-width} #DDD;
 $dark-background: #DDD;
-$dark-border: solid 1px #999;
+$dark-border: solid #{$border-width} #999;
 
 $checkbox-disabled: #999;
 $checkbox-selected: #EEE;

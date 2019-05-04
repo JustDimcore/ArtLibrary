@@ -1,8 +1,6 @@
 @import "../../variables.scss";
 
 .main-container {
-  display: flex;
-  flex-direction: row;
   height: 100vh;
   position: absolute;
   top: 0;
@@ -10,11 +8,22 @@
   bottom: 0;
   right: 0;
 
-  //font-family: Roboto, "Helvetica Neue", sans-serif;
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
 }
 
+$header-height: 60px;
+
+app-header {
+  height: $header-height;
+}
+
 app-side-menu {
   flex-shrink: 0;
+  width: $side-panel-width;
+}
+
+app-main-content {
+  height: calc(100vh - #{$header-height} - #{$border-width} * 2);
+  overflow: auto;
 }

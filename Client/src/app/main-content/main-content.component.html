@@ -1,16 +1,27 @@
 <div class="content">
-  <div class="sprite-container" *ngFor="let sprite of sprites">
+  <div class="sprite-container" *ngFor="let sprite of sprites | async">
     <!-- <a [href]="sprite.path" download target="_blank"> -->
       <div class="sprite-img-holder">
         <img class="sprite-img" [src]="sprite.path">
         <div class="hidden-sprite-info">
-          <a class="button" [href]="sprite.path" download target="_blank">
+          <span class="info">
+            Test info<br>
+            Additional info<br>
+            Test info<br>
+          </span>
+          <a class="button edit-button" href="#">
+            <span class="mdi mdi-pencil preset-icon"></span>
+          </a>
+          <a class="button download-button" [href]="sprite.path" download target="_blank">
             <span class="mdi mdi-download preset-icon"></span>
           </a>
         </div>
         <div class="sprite-size">{{sprite.meta.width}} x {{sprite.meta.height}}</div>
       </div>
     <!-- </a> -->
-    <span class="sprite-name">{{sprite.name}}</span>
+    <div class="sprite-name">
+      <span>{{sprite.name}}</span>
+      <div class="gradient-end"></div>
+    </div>
   </div>
 </div>
