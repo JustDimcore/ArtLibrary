@@ -20,19 +20,42 @@
   margin: 0px 20px 0px 10px;
 
   .logo-link {
-    top: 6px;
     position: relative;
+    display: inline-block;
+    top: 5px;
 
     .logo-text {
       font-family: "Open Sans", "Helvetica Neue", sans-serif;
       font-weight: 700;
       position: relative;
-      top: -5px;
+      top: -16px;
     }
 
-    .logo {
-      font-size: 32px;
-      padding-right: 12px;
+    img {
+      max-height: 35px;
+      top: 0px;
+      position: relative;
+      margin: 5px;
+      margin-right: 10px;
+
+      &:hover {
+        animation: shaking 200ms 2;
+      }
+
+      @keyframes shaking {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(15deg);
+        }
+        60% {
+          transform: rotate(-10deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
     }
 
     &:active, &:link, &:hover, &:visited {
@@ -69,6 +92,7 @@
 
   span {
     font-size: 20px;
+    color: $text-color;
 
     &:hover {
       color: $light-text-color;
@@ -99,14 +123,57 @@
     color: $dark-text-color;
   }
 
-  .arrow-left {
-    width: 0;
-    height: 0;
-    border-right: 10px solid transparent;
-    border-left: 10px solid transparent;
-    border-bottom: 10px solid #{$dark-background};
+  .arrow-top {
     left: #{$width/2};
-    position: absolute;
     top: -10px;
   }
+}
+
+.upload {
+  font-size: 32px;
+  color: $text-color;
+  display: inline-block;
+  position: absolute;
+  right: 12px;
+  top: 8px;
+
+  &:hover {
+    span {
+      color: $light-text-color;
+    }
+  }
+
+  &:active {
+    span {
+      color: $text-color;
+    }
+  }
+
+  .upload-box {
+    $width: 250px;
+
+    width: $width;
+    position: absolute;
+    top: 55px;
+    right: -9px;
+    background-color: $dark-background;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 5;
+
+    .arrow-top {
+      right: 15px;
+      top: -10px;
+    }
+  }
+}
+
+.arrow-top {
+  width: 0;
+  height: 0;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid #{$dark-background};
+  position: absolute;
 }
