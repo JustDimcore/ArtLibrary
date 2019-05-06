@@ -9,12 +9,14 @@ import {FilterService} from '../services/filter.service';
 })
 export class MainContentComponent implements OnInit {
 
-  sprites: Observable<any[]>;
+  sprites$: Observable<any[]>;
+  isLoading$: Observable<boolean>;
 
   constructor(private _filterService: FilterService) { }
 
   ngOnInit() {
-    this.sprites = this._filterService.spritesSource;
+    this.sprites$ = this._filterService.spritesSource;
+    this.isLoading$ = this._filterService.isLoadingSource;
     this._filterService.loadSpritesInfo();
   }
 }

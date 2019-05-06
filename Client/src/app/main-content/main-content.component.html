@@ -1,8 +1,8 @@
 <div class="content">
-  <div class="sprite-container" *ngFor="let sprite of sprites | async">
+  <div class="sprite-container" *ngFor="let sprite of sprites$ | async">
     <!-- <a [href]="sprite.path" download target="_blank"> -->
       <div class="sprite-img-holder">
-        <img class="sprite-img" [src]="sprite.path">
+        <img class="sprite-img" [src]="sprite.preview">
         <div class="hidden-sprite-info">
           <span class="info">
             Test info<br>

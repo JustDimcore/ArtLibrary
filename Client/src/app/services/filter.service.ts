@@ -11,6 +11,7 @@ export class FilterService {
   constructor(private httpClient: HttpClient) { }
 
   private _sprites: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  private _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private _filters: any = {};
   get filters() {
@@ -25,6 +26,14 @@ export class FilterService {
     return this._sprites.value;
   }
 
+  get isLoading(): boolean {
+    return this._isLoading.value;
+  }
+
+  get isLoadingSource(): Observable<boolean> {
+    return this._isLoading;
+  }
+
   public filterSprites(filter: any) {
     Object.assign(this._filters, filter);
     this.loadSpritesInfo();
@@ -33,10 +42,15 @@ export class FilterService {
   public loadSpritesInfo() {
     const params = this._filters || {};
 
+    this._isLoading.next(true);
     this.httpClient.get(environment.backendUrl + '/search', { params })
       .subscribe((res: any[]) => {
-        res.forEach(sprite => sprite.path = environment.cdnUrl + sprite.path);
+        res.forEach(sprite => {
+          sprite.path = environment.artUrl + sprite.path;
+          sprite.preview = environment.previewsUrl + sprite.name;
+        });
         this._sprites.next(res);
+        this._isLoading.next(false);
         console.log(res);
       });
   }

@@ -8,7 +8,7 @@ export class FileService {
 
   private _filesList: SpriteInfo[];
   private _isDirty = true;
-  private extensions = ['.jpeg','.png','.jpg','.bmp','.gif'];
+  private _extensions = ['.jpeg','.png','.jpg','.bmp','.gif'];
 
   constructor(private _dirPath: string, private _projectMetaService: SpriteMetaService) {
     if (fs.existsSync(this._dirPath)){
@@ -64,7 +64,7 @@ export class FileService {
   }
 
   isNeededExtension(path: string) {
-    for(const ext of this.extensions) {
+    for(const ext of this._extensions) {
       if(path.endsWith(ext))
         return true;
     }
