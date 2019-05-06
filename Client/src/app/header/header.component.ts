@@ -1,13 +1,14 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {FilterService} from "../services/filter.service";
-import {debounceTime} from "rxjs/internal/operators";
-import {PresetsService} from "../services/presets.service";
+import {FilterService} from '../services/filter.service';
+import {debounceTime} from 'rxjs/internal/operators';
+import {PresetsService} from '../services/presets.service';
+import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
 
@@ -55,9 +56,7 @@ export class HeaderComponent implements OnInit {
   click(event) {
     if (this._skipHelpHiding) {
       this._skipHelpHiding = false;
-      return;
-    }
-    if (this.displayHelp) {
+    } else {
       this.displayHelp = false;
     }
   }
@@ -80,6 +79,6 @@ export class HeaderComponent implements OnInit {
   }
 
   setExample() {
-    this.form.controls.search.setValue(this.searchExample);
+    this.form.controls['search'].setValue(this.searchExample);
   }
 }

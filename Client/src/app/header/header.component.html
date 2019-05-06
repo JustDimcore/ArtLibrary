@@ -14,10 +14,12 @@
     <div class="help-button">
       <span (click)="showHelp()" class="mdi mdi-help-circle"></span>
       <div class="help-box" [ngStyle]="{display: displayHelp ? 'block' : 'none'}">
-        <div class="arrow-left"></div>
-        <b>Ctrl+F</b> or <b>F3</b> to focus on search string<br>
+        <div class="arrow-top"></div>
+        <b>Ctrl+F</b> or <b>F3</b> to focus on search string.<br><br>
         Write multiple filters comma separated i.e. <a href="#" (click)="setExample()" class="search-example">{{searchExample}}</a>
       </div>
     </div>
   </form>
+
+  <app-upload-list></app-upload-list>
 </div>

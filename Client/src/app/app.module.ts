@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import {MatFormFieldModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { MainContentComponent } from './main-content/main-content.component';
+import { SpritesListComponent } from './sprites-list/sprites-list.component';
 import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { ZeroIsAnyDirective } from './directives/zeroIsAnyDirective';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -13,16 +13,18 @@ import { SpriteFinderComponent } from './sprite-finder/sprite-finder.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { UploadListComponent } from './upload-list/upload-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SideMenuComponent,
-    MainContentComponent,
+    SpritesListComponent,
     RadioGroupComponent,
     ZeroIsAnyDirective,
     SpriteFinderComponent,
-    HeaderComponent
+    HeaderComponent,
+    UploadListComponent
   ],
   imports: [
     BrowserModule,

@@ -3,11 +3,11 @@ import {Observable} from 'rxjs/index';
 import {FilterService} from '../services/filter.service';
 
 @Component({
-  selector: 'app-main-content',
-  templateUrl: './main-content.component.html',
-  styleUrls: ['./main-content.component.scss']
+  selector: 'app-sprites-list',
+  templateUrl: './sprites-list.component.html',
+  styleUrls: ['./sprites-list.component.scss']
 })
-export class MainContentComponent implements OnInit {
+export class SpritesListComponent implements OnInit {
 
   sprites$: Observable<any[]>;
   isLoading$: Observable<boolean>;

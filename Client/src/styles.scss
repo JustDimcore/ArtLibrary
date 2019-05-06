@@ -109,3 +109,12 @@ input[type=text], input[type=number] {
   margin-top: 19px;
   height: 1px;
 }
+
+.arrow-top {
+  width: 0;
+  height: 0;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid #{$dark-background};
+  position: absolute;
+}

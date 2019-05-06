@@ -1,0 +1,42 @@
+@import "../../variables.scss";
+
+
+.upload {
+  font-size: 32px;
+  color: $text-color;
+  display: inline-block;
+  position: absolute;
+  right: 12px;
+  top: 8px;
+
+  &:hover {
+    span {
+      color: $light-text-color;
+    }
+  }
+
+  &:active {
+    span {
+      color: $text-color;
+    }
+  }
+
+  .upload-box {
+    $width: 250px;
+
+    width: $width;
+    position: absolute;
+    top: 55px;
+    right: -9px;
+    background-color: $dark-background;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 5;
+
+    .arrow-top {
+      right: 15px;
+      top: -10px;
+    }
+  }
+}

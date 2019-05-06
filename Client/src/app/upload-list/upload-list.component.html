@@ -1,0 +1,9 @@
+<div (click)="showUploadList()" class="upload">
+  <span class="mdi mdi-upload"></span>
+  <div class="upload-box" [ngStyle]="{display: (displayUpload$ | async) ? 'block' : 'none'}">
+    <div class="arrow-top"></div>
+    <div *ngFor="let item of uploadList$ | async; let i = index">
+      {{item | async}}
+    </div>
+  </div>
+</div>
