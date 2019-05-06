@@ -1,7 +1,9 @@
-<div class="main-container">
+<div class="main-container" [ngClass]="{'drop-state': showFileDropArea}">
   <app-header></app-header>
   <div fxLayout="row" class="content-holder">
     <app-side-menu></app-side-menu>
     <app-main-content></app-main-content>
+  </div>
+  <div class="drop-background">
   </div>
 </div>

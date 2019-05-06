@@ -30,3 +30,29 @@ app-side-menu {
   top: $header-height;
   position: relative;
 }
+
+.drop-state {
+  * {
+    pointer-events: none;
+  }
+
+  .drop-background {
+    opacity: 1;
+  }
+}
+
+.drop-background {
+  opacity: 0;
+
+  $margin: 10px;
+
+  position: fixed;
+  top: $margin;
+  left: $margin;
+  right: $margin;
+  bottom: $margin;
+  border: solid 3px rgba(127,127,127, 0.5);
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 3px;
+  z-index: 100;
+}
