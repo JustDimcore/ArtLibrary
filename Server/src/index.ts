@@ -4,7 +4,10 @@ import { FileService } from "./filesService";
 import cors from 'cors';
 import { SpriteMetaService } from "./spriteMetaService";
 import { FilterService } from "./filterService";
-import { PreviewService } from "./preview.service";
+import { PreviewService } from "./previewService";
+import fileUpload from "express-fileupload";
+import { NextFunction } from "connect";
+
 
 // App init
 var artPath = 'public/art';
@@ -25,8 +28,8 @@ const previewService = new PreviewService(fullArtPath, fullPreviewPath);
 
   previewService.updatePreviews(filesList, false);
 
-  // Start listening
   app.use(cors());
+  app.use(fileUpload());
 
   app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public/client/index.html'));
@@ -44,9 +47,49 @@ const previewService = new PreviewService(fullArtPath, fullPreviewPath);
   app.use('/art', express.static(path.join(__dirname, 'public/art/')));
   app.use('/preview', express.static(path.join(__dirname, 'public/preview/')));
 
+  app.post('/upload', (req: Request, res: Response) => {
+    if(!req.files || !req.files['fileKey'])
+    {
+      console.log(req);
+      res.status(503).send({error: 'No file'});
+      return;
+    }
+    console.log(req.files);
+    const fileKey = req.files['fileKey'];
+    const files = (Array.isArray(fileKey) ? fileKey : [fileKey]) as any[];
+
+    for(let i = 0; i < files.length; i++) {
+      const file = files[i];
+      fileService.saveFile(file);
+    }
+  });
+
   app.use(express.static(path.join(__dirname, 'public/client/')));
+
+  app.use(logErrors);
+  app.use(clientErrorHandler);
+  app.use(errorHandler);
+
 
   app.listen(port, () => {
     console.log(`Listening on port ${port}!`);
   });
 })();
+
+function logErrors(err: any, req: Request, res: Response, next: NextFunction) {
+  console.error(err.stack);
+  next(err);
+}
+
+function clientErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+  res.status(500);
+  res.render('error', { error: err });
+}

@@ -1,6 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {UploadService} from '../services/upload.service';
 import {Observable} from 'rxjs/index';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload-list',
@@ -11,12 +12,20 @@ export class UploadListComponent implements OnInit {
 
   uploadList$: Observable<any[]>;
   displayUpload$: Observable<boolean>;
+  countInProgress$: Observable<number>;
 
   private _skipUploadHiding = false;
 
   constructor(private _uploadService: UploadService) {
     this.uploadList$ = _uploadService.uploadListSource;
     this.displayUpload$ = this._uploadService.showUploadSource;
+    this.countInProgress$ = _uploadService.uploadListSource
+      .pipe(
+        map((files: any[]) => {
+          console.log(files.filter(f => f.progress < 1).length);
+          return files.filter(f => f.progress < 1).length;
+        }),
+      );
   }
 
   ngOnInit() {
@@ -36,4 +45,14 @@ export class UploadListComponent implements OnInit {
     this._skipUploadHiding = true;
   }
 
+  cancel(event: Event, item) {
+    console.log(event);
+    this.preventDefault();
+    item.cancel();
+  }
+
+  preventDefault() {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }

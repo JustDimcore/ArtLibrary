@@ -14,6 +14,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadListComponent } from './upload-list/upload-list.component';
+import { SizePipe } from './size.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UploadListComponent } from './upload-list/upload-list.component';
     ZeroIsAnyDirective,
     SpriteFinderComponent,
     HeaderComponent,
-    UploadListComponent
+    UploadListComponent,
+    SizePipe
   ],
   imports: [
     BrowserModule,

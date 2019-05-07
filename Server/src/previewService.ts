@@ -51,8 +51,21 @@ export class PreviewService {
       const image = sharp(inputPath);
       const preview = image.resize(this.previewWidth, this.previewHeight, {fit: 'inside', withoutEnlargement: true})
 
+      let format: string;
+      switch(sprite.meta.format) {
+        case 'png':
+        case 'jpeg':
+          format = sprite.meta.format;
+        
+        default:
+          if(sprite.meta.hasAlpha)
+            format = 'png';
+          else
+            format = 'jpeg';
+      }
+
       const promise = preview
-        .toFormat(sprite.meta.format, {quality: this.quality, compressionLevel: this.compressionLevel})
+        .toFormat(format, {quality: this.quality, compressionLevel: this.compressionLevel})
         .toFile(outputPath);
       
       promise.catch(error => {

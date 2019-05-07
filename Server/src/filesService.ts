@@ -3,6 +3,7 @@ import path from "path";
 import { SpriteInfo } from "./spriteInfo";
 import sharp from "sharp";
 import { SpriteMetaService } from "./spriteMetaService";
+import { promisify } from "util";
 
 export class FileService {
 
@@ -69,5 +70,12 @@ export class FileService {
         return true;
     }
     return false;
+  }
+
+  async saveFile(file: any) {
+    console.log(file.name);
+    const filePath = path.join(this._dirPath, file.name);
+
+    return await promisify(fs.writeFile)(filePath, file.data);
   }
 }

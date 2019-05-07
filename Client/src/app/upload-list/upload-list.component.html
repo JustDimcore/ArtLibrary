@@ -1,9 +1,22 @@
-<div (click)="showUploadList()" class="upload">
-  <span class="mdi mdi-upload"></span>
-  <div class="upload-box" [ngStyle]="{display: (displayUpload$ | async) ? 'block' : 'none'}">
+<div class="upload">
+  <span (click)="showUploadList()" class="mdi mdi-upload">
+    <span class="count" >{{countInProgress$ | async}}</span>
+  </span>
+
+  <div class="upload-box" (mouseup)="preventDefault()" (mousedown)="preventDefault()" (click)="preventDefault()" [ngStyle]="{display: (displayUpload$ | async) ? 'block' : 'none'}">
     <div class="arrow-top"></div>
-    <div *ngFor="let item of uploadList$ | async; let i = index">
-      {{item | async}}
+    <div class="loading-item" [ngClass]="{'done' : item.progress == 1}" *ngFor="let item of uploadList$ | async; let i = index">
+      <div class="foreground" [ngStyle]="{'width' : item.progress * 100 + '%'}"></div>
+      <span class="status">
+        <span>{{item.name}}</span>
+        <span>{{item.loaded | size}} / {{item.total | size}}</span>
+        <span>{{item.message === '100' ? 'Done!' : (item.message + '%')}}</span>
+      </span>
+      <span class="cancel-button mdi" [ngClass]="{'mdi-check-circle-outline' : item.progress == 1, 'mdi-close-circle' : item.progress < 1}" (click)="cancel($event, item)"></span>
+    </div>
+
+    <div *ngIf="(uploadList$ | async).length === 0">
+      No uploading files
     </div>
   </div>
 </div>

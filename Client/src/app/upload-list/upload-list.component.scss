@@ -8,27 +8,23 @@
   position: absolute;
   right: 12px;
   top: 8px;
+  white-space: nowrap;
 
-  &:hover {
-    span {
-      color: $light-text-color;
-    }
+  .mdi:hover {
+    color: $light-text-color;
   }
 
-  &:active {
-    span {
-      color: $text-color;
-    }
+  .mdi:active {
+    color: $text-color;
   }
 
   .upload-box {
-    $width: 250px;
-
-    width: $width;
+    min-width: 250px;
+    white-space: nowrap;
     position: absolute;
     top: 55px;
     right: -9px;
-    background-color: $dark-background;
+    background-color: $medium-background;
     padding: 12px 20px;
     border-radius: 5px;
     font-size: 14px;
@@ -39,4 +35,62 @@
       top: -10px;
     }
   }
+}
+
+.loading-item {
+  position: relative;
+  border: $dark-border;
+  border-radius: 3px;
+  height: 28px;
+}
+
+.done {
+
+  border: none;
+
+  .foreground {
+    display: none;
+  }
+}
+
+.foreground {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: $medium-foreground;
+}
+
+.status {
+  position: relative;
+  z-index: 15;
+  display: inline-block;
+  bottom: 2px;
+  color: $dark-text-color;
+
+  span {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.cancel-button {
+  font-size: 20px;
+  position: relative;
+  top: 1px;
+  margin: 5px;
+}
+
+.count {
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 3px;
+  font-size: 10px;
+  color: white;
+  text-align: center;
+  top: 3px;
+  right: -2px;
 }
