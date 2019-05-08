@@ -22,8 +22,7 @@ export class UploadListComponent implements OnInit {
     this.countInProgress$ = _uploadService.uploadListSource
       .pipe(
         map((files: any[]) => {
-          console.log(files.filter(f => f.progress < 1).length);
-          return files.filter(f => f.progress < 1).length;
+          return files.filter(f => f.progress.value < 1).length;
         }),
       );
   }
@@ -54,5 +53,12 @@ export class UploadListComponent implements OnInit {
   preventDefault() {
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  clearAllDone() {
+    this._uploadService.clearAllDone();
+    if (this._uploadService.uploadList.length === 0) {
+      this.showUploadList();
+    }
   }
 }

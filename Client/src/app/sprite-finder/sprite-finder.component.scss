@@ -55,14 +55,12 @@ app-side-menu {
   right: $margin;
   bottom: $margin;
   border: solid 3px rgba(127,127,127, 0.5);
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(black,0.3);
   border-radius: 3px;
   z-index: 100;
 
   .mdi {
     display: block;
-    width: 100px;
-    height: 100px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -70,5 +68,17 @@ app-side-menu {
     margin-left: -75px;
     font-size: 150px;
     color: rgba(255,255,255,0.9);
+  }
+
+  &.invalid {
+    background-color: rgba(red, 0.3);
+    border: solid 3px rgba(127,0,0, 0.5);
+
+    .mdi {
+      margin-top: -100px;
+      margin-left: -100px;
+      font-size: 200px;
+      color: rgba(red, 0.5);
+    }
   }
 }

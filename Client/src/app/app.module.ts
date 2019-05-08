@@ -15,6 +15,7 @@ import { HeaderComponent } from './header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadListComponent } from './upload-list/upload-list.component';
 import { SizePipe } from './size.pipe';
+import { ProgressPipe } from './progress.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SizePipe } from './size.pipe';
     SpriteFinderComponent,
     HeaderComponent,
     UploadListComponent,
-    SizePipe
+    SizePipe,
+    ProgressPipe
   ],
   imports: [
     BrowserModule,

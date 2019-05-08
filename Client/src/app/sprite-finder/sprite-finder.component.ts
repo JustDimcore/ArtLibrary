@@ -10,6 +10,7 @@ export class SpriteFinderComponent implements OnInit {
 
   filters: any;
   showFileDropArea: boolean;
+  validDropFiles: boolean;
 
   private _dragCounter = 0;
 
@@ -31,6 +32,14 @@ export class SpriteFinderComponent implements OnInit {
   @HostListener('window:dragenter', ['$event'])
   onDragEnter(event: DragEvent) {
     this.showFileDropArea = true;
+    this.validDropFiles = (() => {
+      for (let i = 0; i < event.dataTransfer.items.length; i++) {
+        if (!this._uploadService.isValidMediaType(event.dataTransfer.items[i].type)) {
+          return false;
+        }
+      }
+      return true;
+    })();
     this._dragCounter++;
   }
 
@@ -47,6 +56,12 @@ export class SpriteFinderComponent implements OnInit {
     event.preventDefault();
     this.showFileDropArea = false;
     this._dragCounter = 0;
+    for (let i = 0; i <event.dataTransfer.files.length; i++) {
+      if (!this._uploadService.isValidExtension(event.dataTransfer.files.item(i).name)) {
+        return;
+      }
+    }
+
     this._uploadService.upload(event.dataTransfer.files);
     this._uploadService.showList(true);
   }

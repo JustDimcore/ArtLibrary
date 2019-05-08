@@ -7,6 +7,7 @@ import { FilterService } from "./filterService";
 import { PreviewService } from "./previewService";
 import fileUpload from "express-fileupload";
 import { NextFunction } from "connect";
+import { SpriteInfo } from "./spriteInfo";
 
 
 // App init
@@ -58,10 +59,15 @@ const previewService = new PreviewService(fullArtPath, fullPreviewPath);
     const fileKey = req.files['fileKey'];
     const files = (Array.isArray(fileKey) ? fileKey : [fileKey]) as any[];
 
+    const filesPromises: Promise<SpriteInfo>[] = [];
     for(let i = 0; i < files.length; i++) {
       const file = files[i];
-      fileService.saveFile(file);
+      filesPromises.push(fileService.saveSprite(file));
     }
+    (async () => {
+      const res = await Promise.all(filesPromises);
+      previewService.updatePreviews(res, true);
+    })();
   });
 
   app.use(express.static(path.join(__dirname, 'public/client/')));

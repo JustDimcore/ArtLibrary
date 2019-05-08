@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs, { PathLike } from "fs";
 import path from "path";
 import { SpriteInfo } from "./spriteInfo";
 import sharp from "sharp";
@@ -12,9 +12,6 @@ export class FileService {
   private _extensions = ['.jpeg','.png','.jpg','.bmp','.gif'];
 
   constructor(private _dirPath: string, private _projectMetaService: SpriteMetaService) {
-    if (fs.existsSync(this._dirPath)){
-      this.watch();
-    }
   }
 
   watch() {
@@ -32,36 +29,44 @@ export class FileService {
   }
 
   public async refreshFilesList() {
+    // create sprites directory
     if (!fs.existsSync(this._dirPath)){
       fs.mkdirSync(this._dirPath, {recursive: true});
       this.watch();
     }
-    this._filesList = await this.getFilesList();
+
+    this._filesList = [];
+    await this.refreshFilesListByPath();
     this._isDirty = false;
   }
   
-  private async getFilesList(filePath?: string, outputList?: SpriteInfo[]): Promise<SpriteInfo[]> {
+  private async refreshFilesListByPath(filePath?: string, outputList?: SpriteInfo[]): Promise<void> {
     filePath = filePath || '';
-    const list = outputList || [];
     const fullPath = path.join(this._dirPath, filePath);
     var stats = fs.lstatSync(fullPath);
     if(stats.isDirectory())
     {
       const files = fs.readdirSync(fullPath);
       for(const file of files) {
-        await this.getFilesList(path.join(filePath, file), list);
+        await this.refreshFilesListByPath(path.join(filePath, file));
       }
     }
     else if(this.isNeededExtension(filePath)){
-      const sprite = {} as SpriteInfo;
-      sprite.path = filePath;
-      sprite.name = path.basename(filePath);
-      sprite.meta = await sharp(fullPath).metadata();
-
-      sprite.projectMeta = this._projectMetaService.getSpriteMeta(fullPath);
-      list.push(sprite);
+      this.addSpriteInfo(filePath);
     }
-    return list;
+  }
+
+  async addSpriteInfo(filePath: string) {
+    const fullPath = path.join(this._dirPath, filePath);
+    console.log(fullPath);
+    const sprite = {} as SpriteInfo;
+    sprite.path = filePath;
+    sprite.name = path.basename(filePath);
+    sprite.meta = await sharp(fullPath).metadata();
+    sprite.projectMeta = this._projectMetaService.getSpriteMeta(fullPath);
+
+    this._filesList.push(sprite);
+    return sprite;
   }
 
   isNeededExtension(path: string) {
@@ -72,10 +77,13 @@ export class FileService {
     return false;
   }
 
-  async saveFile(file: any) {
-    console.log(file.name);
+  async saveSprite(file: any): Promise<SpriteInfo> {
     const filePath = path.join(this._dirPath, file.name);
 
-    return await promisify(fs.writeFile)(filePath, file.data);
+    await promisify(fs.writeFile)(filePath, file.data);
+    console.log('saved file ' + file.name);
+    const spriteInfo = await this.addSpriteInfo(file.name);
+    console.log('saved sprite info ' + file.name);
+    return spriteInfo;
   }
 }

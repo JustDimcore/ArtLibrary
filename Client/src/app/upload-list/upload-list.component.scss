@@ -42,6 +42,10 @@
   border: $dark-border;
   border-radius: 3px;
   height: 28px;
+
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .done {
@@ -63,22 +67,36 @@
 
 .status {
   position: relative;
+  top: -1px;
   z-index: 15;
   display: inline-block;
-  bottom: 2px;
   color: $dark-text-color;
+  margin-right: 5px;
 
-  span {
+  display: flex;
+  flex-grow: 1;
+
+  .name {
+    flex-grow: 1;
+    margin-right: 20px;
+  }
+
+  .size {
+    width: 140px;
+    text-align: right;
+  }
+
+  .percent {
+    width: 50px;
+    text-align: right;
     margin-left: 10px;
-    margin-right: 10px;
   }
 }
 
 .cancel-button {
   font-size: 20px;
   position: relative;
-  top: 1px;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .count {
@@ -93,4 +111,25 @@
   text-align: center;
   top: 3px;
   right: -2px;
+}
+
+.clear-done {
+
+  text-align: right;
+  margin-bottom: 6px;
+
+  a {
+    &:hover {
+      color: $light-text-color;
+    }
+
+    &, &:active {
+      color: $text-color;
+    }
+  }
+}
+
+.items-container {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
 }
