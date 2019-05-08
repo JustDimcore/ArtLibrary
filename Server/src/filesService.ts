@@ -31,8 +31,8 @@ export class FileService {
   public async refreshFilesList() {
     // create sprites directory
     if (!fs.existsSync(this._dirPath)){
-      fs.mkdirSync(this._dirPath, {recursive: true});
-      this.watch();
+      await promisify(fs.mkdir)(this._dirPath, {recursive: true});
+      //this.watch();
     }
 
     this._filesList = [];
@@ -43,7 +43,7 @@ export class FileService {
   private async refreshFilesListByPath(filePath?: string, outputList?: SpriteInfo[]): Promise<void> {
     filePath = filePath || '';
     const fullPath = path.join(this._dirPath, filePath);
-    var stats = fs.lstatSync(fullPath);
+    var stats = await promisify(fs.lstat)(fullPath);
     if(stats.isDirectory())
     {
       const files = fs.readdirSync(fullPath);
@@ -52,7 +52,7 @@ export class FileService {
       }
     }
     else if(this.isNeededExtension(filePath)){
-      this.addSpriteInfo(filePath);
+      await this.addSpriteInfo(filePath);
     }
   }
 
@@ -64,8 +64,16 @@ export class FileService {
     sprite.name = path.basename(filePath);
     sprite.meta = await sharp(fullPath).metadata();
     sprite.projectMeta = this._projectMetaService.getSpriteMeta(fullPath);
+    const stat = await promisify(fs.stat)(fullPath);
+    sprite.lastUpdate = stat.mtimeMs;
 
-    this._filesList.push(sprite);
+    const oldIndex = this._filesList.findIndex(file => file.name == sprite.name);
+    if(oldIndex > -1) {
+      this._filesList[oldIndex] = sprite;
+    } else {
+      this._filesList.push(sprite);
+    }
+
     return sprite;
   }
 

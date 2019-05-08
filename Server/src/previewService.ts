@@ -28,14 +28,15 @@ export class PreviewService {
       sprites = sprites.filter(sprite => !this._previews.includes(sprite.name));
     }
 
-    this.createPreviews(sprites);
+    await this.createPreviews(sprites);
   }
 
   public async init() {
-    if (! await promisify(fs.exists)(this._previewsPath)){
-      console.log('preview directory creating');
-      await promisify(fs.mkdir)(this._previewsPath, {recursive: true});
+    if (await promisify(fs.exists)(this._previewsPath)) {
+      await promisify(fs.unlink)(this._previewsPath);
     }
+
+    await promisify(fs.mkdir)(this._previewsPath, {recursive: true});
     const files = await promisify(fs.readdir)(this._previewsPath);
     console.log(`got preview files: ${files.length} items`);
     this._previews = files;

@@ -5,9 +5,7 @@
         <img class="sprite-img" [src]="sprite.preview">
         <div class="hidden-sprite-info">
           <span class="info">
-            Test info<br>
-            Additional info<br>
-            Test info<br>
+            Last update: {{sprite.lastUpdate | date: 'dd/MM/y HH:mm:ss'}}<br>
           </span>
           <a class="button edit-button" href="#">
             <span class="mdi mdi-pencil preset-icon"></span>

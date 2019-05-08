@@ -5,4 +5,6 @@ export class SpriteInfo {
     path: string;
     projectMeta: any;
     meta: Metadata;
+
+    lastUpdate: number;
 }

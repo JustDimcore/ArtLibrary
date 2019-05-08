@@ -141,8 +141,12 @@
 
       span {
         background-color: $medium-background;
-        padding: 5px 6px 5px 0px;
+        padding: 0px 5px 5px 5px;
+        left: -5px;
+        position: relative;
         border-radius: 3px;
+        display: inline-block;
+        z-index: 20;
       }
 
       .gradient-end {
