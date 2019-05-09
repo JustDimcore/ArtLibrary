@@ -44,8 +44,7 @@ export class UploadListComponent {
     this._skipUploadHiding = true;
   }
 
-  cancel(event: Event, item) {
-    console.log(event);
+  cancel(item) {
     this.preventDefault();
     item.cancel();
   }

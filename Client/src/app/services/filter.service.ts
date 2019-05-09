@@ -45,8 +45,8 @@ export class FilterService {
   }
 
   public loadSprites(filter?: any) {
+    this._filters.from = 0;
     if (filter) {
-      this._filters.from = 0;
       Object.assign(this._filters, filter);
     }
     this._load.next();

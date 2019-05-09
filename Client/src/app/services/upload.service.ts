@@ -71,10 +71,11 @@ export class UploadService {
   supportedFormats = ['.png', '.jpeg', '.jpg'];
   maxFileSize = 1024 * 1024 * 200; // 200 mb
 
-  allDone = new Subject();
+  allDone = new Subject<boolean>();
 
   private _showUploadMenu: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _uploadList: BehaviorSubject<FileUploadStatus[]> = new BehaviorSubject([]);
+  private _newUploaded = 0;
 
   private _uploadQueue: Observable<any>[] = [];
 
@@ -113,6 +114,9 @@ export class UploadService {
       obs.onFinish.subscribe(() => {
         this._uploadList.next(this.uploadList.slice());
       });
+      obs.onSuccess.subscribe(() => {
+        this._newUploaded++;
+      });
       uploads.push(obs);
     }
 
@@ -123,7 +127,8 @@ export class UploadService {
           if (this._uploadQueue.length > 0) {
             this._uploadQueue[0].subscribe();
           } else {
-            this.allDone.next();
+            this.allDone.next(this._newUploaded > 0);
+            this._newUploaded = 0;
           }
         })
       );

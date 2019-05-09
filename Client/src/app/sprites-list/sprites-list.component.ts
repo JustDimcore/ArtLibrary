@@ -20,8 +20,10 @@ export class SpritesListComponent implements OnInit {
     this.sprites$ = this._filterService.spritesSource;
     this.isLoading$ = this._filterService.isLoadingSource;
     this._filterService.loadSprites();
-    this._uploadService.allDone.subscribe(() => {
-      this._filterService.loadSprites();
+    this._uploadService.allDone.subscribe((hasNew) => {
+      if (hasNew) {
+        this._filterService.loadSprites();
+      }
     });
   }
 }

@@ -44,8 +44,20 @@ export class SpriteFinderComponent implements OnInit {
 
   @HostListener('window:dragenter', ['$event'])
   onDragEnter(event: DragEvent) {
-    this.showFileDropArea = true;
+    if (this.containsFiles(event.dataTransfer.items)) {
+      this.showFileDropArea = true;
+    }
+
     this._dragCounter++;
+  }
+
+  containsFiles(items) {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].kind === 'file') {
+        return true;
+      }
+    }
+    return false;
   }
 
   @HostListener('window:dragleave', ['$event'])
@@ -58,6 +70,9 @@ export class SpriteFinderComponent implements OnInit {
 
   @HostListener('window:drop', ['$event'])
   onDragDrop(event: DragEvent) {
+    if (!event.dataTransfer.files || event.dataTransfer.files.length === 0) {
+      return;
+    }
     event.preventDefault();
     this.showFileDropArea = false;
     this._dragCounter = 0;

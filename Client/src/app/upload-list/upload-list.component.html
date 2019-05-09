@@ -36,7 +36,7 @@
                 'mdi-close-circle' : (item.progress | async) < 1 && (item.status | async) != 4,
                 'mdi-alert' : (item.status | async) == 4
               }"
-              (click)="cancel($event, item)"></span>
+              (click)="cancel(item)"></span>
       </div>
     </div>
 
