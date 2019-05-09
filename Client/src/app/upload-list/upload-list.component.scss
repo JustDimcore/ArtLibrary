@@ -10,12 +10,14 @@
   top: 8px;
   white-space: nowrap;
 
-  .mdi:hover {
-    color: $light-text-color;
-  }
+  .mdi-upload {
+    &:hover {
+      color: $light-text-color;
+    }
 
-  .mdi:active {
-    color: $text-color;
+    &:active {
+      color: $text-color;
+    }
   }
 
   .upload-box {
@@ -40,8 +42,10 @@
 .loading-item {
   position: relative;
   border: $dark-border;
-  border-radius: 3px;
+  border-radius: 2px;
   height: 28px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 
   display: flex;
   align-items: center;
@@ -49,13 +53,19 @@
 }
 
 .done {
-
   border: none;
-
   .foreground {
     display: none;
   }
 }
+
+.failed {
+  border: solid 1px rgb(200,0,0);
+  .foreground {
+    display: none;
+  }
+}
+
 
 .foreground {
   height: 100%;
@@ -72,6 +82,7 @@
   display: inline-block;
   color: $dark-text-color;
   margin-right: 5px;
+  margin-left: 5px;
 
   display: flex;
   flex-grow: 1;
@@ -97,6 +108,7 @@
   font-size: 20px;
   position: relative;
   margin-left: 5px;
+  margin-right: 5px;
 }
 
 .count {
@@ -132,4 +144,24 @@
 .items-container {
   max-height: calc(100vh - 200px);
   overflow: auto;
+}
+
+.mdi-alert {
+  &:hover {
+    color: red;
+  }
+
+  &, &:active {
+    color: rgb(200,0,0);
+  }
+}
+
+.mdi-check-circle-outline {
+  &:hover {
+    color: rgb(0,200,0);
+  }
+
+  &, &:active {
+    color: green;
+  }
 }

@@ -1,6 +1,5 @@
-import {Component, OnInit, HostListener, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, HostListener} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 import {PresetsService} from '../services/presets.service';
 import {Observable} from 'rxjs/index';
 import {FilterService} from '../services/filter.service';
@@ -30,13 +29,13 @@ export class SideMenuComponent implements OnInit {
       yMin: new FormControl('', [Validators.min(0)]),
       yMax: new FormControl('', [Validators.min(0)]),
       alpha: new FormControl(''),
-      slice: new FormControl(''),
+      //slice: new FormControl(''),
     }
   );
 
   defaultPreset = {
     alpha: SimpleState.Any,
-    slice: SimpleState.Any,
+    //slice: SimpleState.Any,
     xMin: '',
     xMax: '',
     yMin: '',
@@ -49,11 +48,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.valueChanges
-      .pipe(
-        debounceTime(100)
-      )
-      .subscribe(ch => this.onChange());
+    this.form.valueChanges.subscribe(ch => this.onChange());
 
     this._presetService.currentPreset.subscribe(preset => this.setPreset(preset));
   }
@@ -69,12 +64,7 @@ export class SideMenuComponent implements OnInit {
 
   onChange() {
     console.log('changed');
-    this._filterService.filterSprites(this.form.value);
-  }
-
-  changeFilter(field: string, value: any) {
-    this[field] = value;
-    this.onChange();
+    this._filterService.loadSprites(this.form.value);
   }
 
   savePreset() {

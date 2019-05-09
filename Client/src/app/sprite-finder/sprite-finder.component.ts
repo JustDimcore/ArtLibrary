@@ -1,5 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import {Component, OnInit, HostListener, ElementRef, ViewChild} from '@angular/core';
 import {UploadService} from "../services/upload.service";
+import {FilterService} from "../services/filter.service";
 
 @Component({
   selector: 'app-sprite-finder',
@@ -8,19 +9,31 @@ import {UploadService} from "../services/upload.service";
 })
 export class SpriteFinderComponent implements OnInit {
 
-  filters: any;
+  @ViewChild('container') _container: ElementRef;
   showFileDropArea: boolean;
-  validDropFiles: boolean;
 
+  private _nextPageLoadDistance = 500;
   private _dragCounter = 0;
 
-  constructor(private _uploadService: UploadService) { }
+  constructor(private _uploadService: UploadService, private _filterService: FilterService) {
+    this._filterService.onRefresh
+      .subscribe(() => {
+        document.documentElement.scrollTop = 0;
+      });
+  }
 
   ngOnInit() {
   }
 
-  onFilterChange(newFilters: any) {
-    this.filters = newFilters;
+  @HostListener('window:scroll', ['$event'])
+  scroll(event) {
+    const content = this._container.nativeElement;
+    const bounds = content.getBoundingClientRect();
+
+    if (content.offsetHeight <= window.innerHeight - bounds.y + this._nextPageLoadDistance) {
+      console.log(event);
+      this._filterService.loadNextPage();
+    }
   }
 
   @HostListener('window:dragover', ['$event'])
@@ -32,14 +45,6 @@ export class SpriteFinderComponent implements OnInit {
   @HostListener('window:dragenter', ['$event'])
   onDragEnter(event: DragEvent) {
     this.showFileDropArea = true;
-    this.validDropFiles = (() => {
-      for (let i = 0; i < event.dataTransfer.items.length; i++) {
-        if (!this._uploadService.isValidMediaType(event.dataTransfer.items[i].type)) {
-          return false;
-        }
-      }
-      return true;
-    })();
     this._dragCounter++;
   }
 
@@ -56,12 +61,6 @@ export class SpriteFinderComponent implements OnInit {
     event.preventDefault();
     this.showFileDropArea = false;
     this._dragCounter = 0;
-    for (let i = 0; i <event.dataTransfer.files.length; i++) {
-      if (!this._uploadService.isValidExtension(event.dataTransfer.files.item(i).name)) {
-        return;
-      }
-    }
-
     this._uploadService.upload(event.dataTransfer.files);
     this._uploadService.showList(true);
   }

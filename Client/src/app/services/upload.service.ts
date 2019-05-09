@@ -1,16 +1,24 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of, Subject, Subscription, concat} from 'rxjs/index';
-import {HttpClient, HttpEventType} from "@angular/common/http";
-import {catchError, map, finalize, takeWhile} from "rxjs/internal/operators";
-import {environment} from "../../environments/environment";
+import {BehaviorSubject, Observable, of, Subject, concat} from 'rxjs/index';
+import {HttpClient, HttpEventType} from '@angular/common/http';
+import {catchError, map, finalize, takeWhile} from 'rxjs/internal/operators';
+import {environment} from '../../environments/environment';
 
 export enum UploadStatus {
-  Unknown,
-  Waiting,
-  Progress,
-  Success,
-  Failed,
-  Canceled
+  Unknown = 0,
+  Waiting = 1,
+  Progress = 2,
+  Success = 3,
+  Failed = 4,
+  Canceled = 5
+}
+
+export enum FailReason {
+  Unknown = 0,
+  FileIsTooBig = 1,
+  UnsupportedExtension = 2,
+  ConnectionLost = 3,
+  NoPermissions = 4
 }
 
 export class FileUploadStatus {
@@ -23,6 +31,9 @@ export class FileUploadStatus {
   onCancel: Subject<FileUploadStatus> = new Subject();
   onError: Subject<FileUploadStatus> = new Subject();
   onFinish: Subject<FileUploadStatus> = new Subject();
+
+  failReason: FailReason = FailReason.Unknown;
+  additionalInfo: any;
 
   private _request: Observable<any>;
   private _canceled: boolean;
@@ -57,10 +68,13 @@ export class FileUploadStatus {
 })
 export class UploadService {
 
+  supportedFormats = ['.png', '.jpeg', '.jpg'];
+  maxFileSize = 1024 * 1024 * 200; // 200 mb
+
   allDone = new Subject();
 
   private _showUploadMenu: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private _uploadList: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  private _uploadList: BehaviorSubject<FileUploadStatus[]> = new BehaviorSubject([]);
 
   private _uploadQueue: Observable<any>[] = [];
 
@@ -72,11 +86,11 @@ export class UploadService {
     return this._showUploadMenu.value;
   }
 
-  get uploadListSource(): Observable<any[]> {
+  get uploadListSource(): Observable<FileUploadStatus[]> {
     return this._uploadList;
   }
 
-  get uploadList(): any[] {
+  get uploadList(): FileUploadStatus[] {
     return this._uploadList.value;
   }
 
@@ -89,7 +103,7 @@ export class UploadService {
   }
 
   upload(files: FileList) {
-    const uploads = [];
+    const uploads: FileUploadStatus[] = [];
     for (let i = 0; i < files.length; i++) {
       const obs = this.postFile(files.item(i));
       obs.onCancel.subscribe(() => {
@@ -102,7 +116,7 @@ export class UploadService {
       uploads.push(obs);
     }
 
-    let req = concat(...uploads.map(u => u.request))
+    const req = concat(...uploads.map(u => u.request))
       .pipe(
         finalize(() => {
           this._uploadQueue.splice(0, 1);
@@ -114,25 +128,40 @@ export class UploadService {
         })
       );
 
-    if (this._uploadQueue.length === 0) {
+    this._uploadQueue.push(req);
+    if (this._uploadQueue.length === 1) {
       req.subscribe();
     }
-    this._uploadQueue.push(req);
 
     this._uploadList.next(this.uploadList.concat(uploads));
   }
 
   clearAllDone() {
-    this._uploadList.next(this.uploadList.filter(file => file.progress.value < 1).slice());
+    this._uploadList.next(this.uploadList.filter(file => ![UploadStatus.Success, UploadStatus.Failed, UploadStatus.Canceled].includes(file.status.value)).slice());
   }
 
-  private postFile(fileToUpload: File) {
+  private postFile(fileToUpload: File): FileUploadStatus {
     const endpoint = environment.uploadUrl;
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
     const headers = {};
 
     const status = new FileUploadStatus(fileToUpload.name, fileToUpload.size);
+    if (!this.isValidExtension(fileToUpload.name)) {
+      status.status.next(UploadStatus.Failed);
+      status.failReason = FailReason.UnsupportedExtension;
+      status.additionalInfo = this.supportedFormats;
+      status.request = of(status);
+      return status;
+    }
+    if (!this.isSizeValid(fileToUpload.size)) {
+      status.status.next(UploadStatus.Failed);
+      status.failReason = FailReason.FileIsTooBig;
+      status.additionalInfo = this.maxFileSize;
+      status.request = of(status);
+      return status;
+    }
+
     status.status.next(UploadStatus.Waiting);
 
     status.request = this._httpClient
@@ -143,7 +172,6 @@ export class UploadService {
       })
       .pipe(
         map((event: any) => {
-
           switch (event.type) {
             case HttpEventType.Sent:
               break;
@@ -151,7 +179,7 @@ export class UploadService {
               status.status.next(UploadStatus.Progress);
               status.loaded.next(event.loaded);
 
-              if(event.loaded > 0 && event.loaded === event.total) {
+              if (event.loaded > 0 && event.loaded === event.total) {
                 status.status.next(UploadStatus.Success);
                 status.onSuccess.next(status);
                 status.onFinish.next(status);
@@ -172,8 +200,6 @@ export class UploadService {
               break;
           }
 
-          console.log(event);
-
           return status;
         }),
         catchError((e) => {
@@ -189,20 +215,23 @@ export class UploadService {
   }
 
   isValidExtension(names: string | string[]) {
-    const validExtensions = ['.png', '.jpeg', '.jpg'];
     if (Array.isArray(names)) {
-      return names.every(name => validExtensions.some(ext => name.endsWith(ext)));
+      return names.every(name => this.supportedFormats.some(ext => name.endsWith(ext)));
     }
 
-    return validExtensions.some(ext => names.endsWith(ext));
+    return this.supportedFormats.some(ext => (names as string).endsWith(ext));
   }
 
   isValidMediaType(names: string | string[]) {
     const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    if(Array.isArray(names)) {
+    if (Array.isArray(names)) {
       return names.every(name => validTypes.includes(name));
     }
 
     return validTypes.includes(names);
+  }
+
+  isSizeValid(size: number) {
+    return this.maxFileSize >= size;
   }
 }

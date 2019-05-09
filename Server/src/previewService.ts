@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import sharp, { OutputInfo } from "sharp";
 import { promisify } from "util";
+import del from "del";
 
 
 export class PreviewService {
@@ -21,7 +22,7 @@ export class PreviewService {
 
   public async updatePreviews(sprites: SpriteInfo[], meesingOnly: boolean) {
     if(!this._previews) {
-      await this.init();
+      await this.init(meesingOnly);
     }
 
     if (meesingOnly) {
@@ -31,22 +32,24 @@ export class PreviewService {
     await this.createPreviews(sprites);
   }
 
-  public async init() {
-    if (await promisify(fs.exists)(this._previewsPath)) {
-      await promisify(fs.unlink)(this._previewsPath);
+  public async init(meesingOnly: boolean) {
+    const exists = await promisify(fs.exists)(this._previewsPath);
+    if (exists && !meesingOnly) {
+      await del(this._previewsPath);
     }
 
-    await promisify(fs.mkdir)(this._previewsPath, {recursive: true});
+    if(!exists || !meesingOnly) {
+      await promisify(fs.mkdir)(this._previewsPath, {recursive: true});
+    }
+
     const files = await promisify(fs.readdir)(this._previewsPath);
     console.log(`got preview files: ${files.length} items`);
     this._previews = files;
   }
 
   private async createPreviews(sprites: SpriteInfo[]) {
-    console.log(`prewiews creating for ${sprites.length} images`);
     const promises: Promise<OutputInfo>[] = [];
     sprites.forEach(sprite => {
-      console.log(`${sprite.name} preview creating`);
       const inputPath = path.join(this._originalsPath, sprite.path);
       const outputPath = path.join(this._previewsPath, sprite.name);
       const image = sharp(inputPath);
@@ -64,7 +67,7 @@ export class PreviewService {
     });
 
     const promiseResult = await Promise.all(promises).catch(error => console.log(error));
-    console.log(`created new ${sprites.length} previews`);
+    console.log(`created ${sprites.length} previews`);
     return promiseResult;
   }
 }

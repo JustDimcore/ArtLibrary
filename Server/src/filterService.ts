@@ -5,12 +5,14 @@ type Filter = (files: any[], filterString: string) => any[];
 export class FilterService {
 
     private _filters: {[key: string]: Filter} = {
-        search: FilterService.filterByString,
-        alpha: FilterService.filterByAlpha,
+        search: FilterService.byString,
+        alpha: FilterService.byAlpha,
         xMin: FilterService.byMinX,
         xMax: FilterService.byMaxX,
         yMin: FilterService.byMinY,
         yMax: FilterService.byMaxY,
+        from: FilterService.from,
+        count: FilterService.count,
     };
 
     filter(files: SpriteInfo[], query: any): any[] {
@@ -23,7 +25,7 @@ export class FilterService {
         return files;
     }
 
-    private static filterByString(files: SpriteInfo[], filterString: string): SpriteInfo[] {
+    private static byString(files: SpriteInfo[], filterString: string): SpriteInfo[] {
         const words = filterString.split(',').map(param => param.toLowerCase().trim());
         const filtered = files.filter(file => words.some(word => FilterService.checkByWord(file, word)))
         return filtered;
@@ -33,7 +35,7 @@ export class FilterService {
         return file.name.toLowerCase().includes(word);
     }
 
-    private static filterByAlpha(files: SpriteInfo[], filterString: string): SpriteInfo[] {
+    private static byAlpha(files: SpriteInfo[], filterString: string): SpriteInfo[] {
         filterString = filterString.toLowerCase();
         let flag = ['true', 'yes'].indexOf(filterString) > -1;
         if(!flag) {
@@ -73,5 +75,13 @@ export class FilterService {
         if(Number.isNaN(value))
             return sprites;
         return sprites.filter(sprite => sprite.meta.height <= value);
+    }
+
+    private static from(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
+        return sprites.slice(Number.parseInt(filterString));
+    }
+
+    private static count(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
+        return sprites.slice(0, Number.parseInt(filterString));
     }
 }

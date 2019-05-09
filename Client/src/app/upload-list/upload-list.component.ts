@@ -1,14 +1,15 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {UploadService} from '../services/upload.service';
-import {Observable} from 'rxjs/index';
-import { map, tap } from 'rxjs/operators';
+import {Component, HostListener} from '@angular/core';
+import {FileUploadStatus, UploadService, UploadStatus} from '../services/upload.service';
+import {merge, Observable} from 'rxjs/index';
+import { map } from 'rxjs/operators';
+import {switchMap} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-upload-list',
   templateUrl: './upload-list.component.html',
   styleUrls: ['./upload-list.component.scss']
 })
-export class UploadListComponent implements OnInit {
+export class UploadListComponent {
 
   uploadList$: Observable<any[]>;
   displayUpload$: Observable<boolean>;
@@ -21,17 +22,16 @@ export class UploadListComponent implements OnInit {
     this.displayUpload$ = this._uploadService.showUploadSource;
     this.countInProgress$ = _uploadService.uploadListSource
       .pipe(
-        map((files: any[]) => {
-          return files.filter(f => f.progress.value < 1).length;
-        }),
+        switchMap((files: FileUploadStatus[]) => merge(...files.map(f => f.status))),
+        map(() =>
+          _uploadService.uploadList
+            .filter(f => [UploadStatus.Progress, UploadStatus.Waiting].includes(f.status.value)).length
+        )
       );
   }
 
-  ngOnInit() {
-  }
-
   @HostListener('window:click', ['$event'])
-  click(event) {
+  click() {
     if (this._skipUploadHiding) {
       this._skipUploadHiding = false;
     } else {
@@ -39,7 +39,7 @@ export class UploadListComponent implements OnInit {
     }
   }
 
-  showUploadList() {
+  showHideUploadList() {
     this._uploadService.showList(!this._uploadService.showUpload);
     this._skipUploadHiding = true;
   }
@@ -58,7 +58,7 @@ export class UploadListComponent implements OnInit {
   clearAllDone() {
     this._uploadService.clearAllDone();
     if (this._uploadService.uploadList.length === 0) {
-      this.showUploadList();
+      this.showHideUploadList();
     }
   }
 }

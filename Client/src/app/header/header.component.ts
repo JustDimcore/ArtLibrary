@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe(ch => {
         this._presetService.updateCurrentState(this.form.value);
-        this._filterService.filterSprites(this.form.value);
+        this._filterService.loadSprites(this.form.value);
       });
 
     this._presetService.currentPreset.subscribe(preset => this.setPreset(preset));
