@@ -16,6 +16,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadListComponent } from './upload-list/upload-list.component';
 import { SizePipe } from './size.pipe';
 import { ProgressPipe } from './progress.pipe';
+import { RouterModule, Routes} from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'sprites',      component: SpriteFinderComponent },
+  { path: '',
+    redirectTo: '/sprites',
+    pathMatch: 'full'
+  }
+];
 
 @NgModule({
   declarations: [
@@ -41,7 +50,8 @@ import { ProgressPipe } from './progress.pipe';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]
