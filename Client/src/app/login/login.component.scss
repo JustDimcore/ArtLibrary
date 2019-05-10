@@ -1,16 +1,27 @@
 :host {
-  display: block;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  text-align: center;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
 }
 
 .google-icon {
   background-image: url(../../assets/google.png);
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   display: inline-block;
+  background-size: contain;
+}
+
+.main {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
