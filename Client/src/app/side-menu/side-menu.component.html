@@ -32,7 +32,7 @@
         <span class="filter-title"><span class="mdi mdi-wunderlist"></span> Presets</span><br>
         <div class="input-with-button">
           <input type="text" placeholder="Preset name" [(ngModel)]="presetName" [ngModelOptions]="{standalone: true}">
-          <button (click)="savePreset()"><span class="link mdi mdi-content-save"></span></button>
+          <button class="link" (click)="savePreset()"><span class="link mdi mdi-content-save"></span></button>
         </div>
         <div>
           <div *ngFor="let preset of presets | async; let i = index" class="preset-link">

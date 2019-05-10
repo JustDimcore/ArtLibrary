@@ -165,3 +165,12 @@
     color: green;
   }
 }
+
+.dragAndDropHelp {
+  padding: 12px;
+  text-align: center;
+  border: dashed 1px #{$medium-foreground};
+  border-radius: 0px;
+  background-color: $light-background;
+  font-size: 13px;
+}
