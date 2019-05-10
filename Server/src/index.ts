@@ -8,6 +8,7 @@ import { PreviewService } from "./previewService";
 import fileUpload from "express-fileupload";
 import { NextFunction } from "connect";
 import { SpriteInfo } from "./spriteInfo";
+import { urlGoogle } from "./google-util";
 
 
 // App init
@@ -28,7 +29,8 @@ app.use(cors());
   app.use(fileUpload());
 
 app.get('/', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'public/client/index.html'));
+  res.redirect(urlGoogle());
+  //res.sendFile(path.join(__dirname, 'public/client/index.html'));
 });
 
 app.get('/search', (req: Request, res: Response) => {

@@ -36,6 +36,7 @@
     "del": "^4.1.1",
     "express": "^4.16.4",
     "express-fileupload": "^1.1.4",
+    "googleapis": "^39.2.0",
     "sharp": "^0.22.1"
   }
 }

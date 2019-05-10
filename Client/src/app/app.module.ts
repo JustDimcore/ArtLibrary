@@ -19,6 +19,7 @@ import { ProgressPipe } from './progress.pipe';
 import { RouterModule, Routes} from '@angular/router';
 
 const appRoutes: Routes = [
+  { path: 'google-auth',  component: SpriteFinderComponent },
   { path: 'sprites',      component: SpriteFinderComponent },
   { path: '',
     redirectTo: '/sprites',
