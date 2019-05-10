@@ -17,8 +17,10 @@ import { UploadListComponent } from './upload-list/upload-list.component';
 import { SizePipe } from './size.pipe';
 import { ProgressPipe } from './progress.pipe';
 import { RouterModule, Routes} from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent},
   { path: 'google-auth',  component: SpriteFinderComponent },
   { path: 'sprites',      component: SpriteFinderComponent },
   { path: '',
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     UploadListComponent,
     SizePipe,
-    ProgressPipe
+    ProgressPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
