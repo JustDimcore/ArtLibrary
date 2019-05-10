@@ -30,6 +30,10 @@ input[type=text], input[type=number] {
   width: 50px;
 }
 
+.link {
+  cursor: pointer;
+}
+
 .input-with-button {
   input {
     width: 180px;
@@ -81,9 +85,8 @@ input[type=text], input[type=number] {
     right: 0;
   }
 
-  a {
+  .link {
     color: $dark-text-color;
-    text-decoration: none;
 
     &:hover {
       color: $text-color;

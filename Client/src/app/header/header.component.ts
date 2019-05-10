@@ -3,7 +3,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {FilterService} from '../services/filter.service';
 import {debounceTime} from 'rxjs/internal/operators';
 import {PresetsService} from '../services/presets.service';
-import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-header',
@@ -32,9 +31,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.form.valueChanges
-      .pipe(
-        debounceTime(200)
-      )
       .subscribe(ch => {
         this._presetService.updateCurrentState(this.form.value);
         this._filterService.loadSprites(this.form.value);
@@ -67,7 +63,7 @@ export class HeaderComponent implements OnInit {
 
   setPreset(preset) {
     for (const prop in this.defaultPreset) {
-      if (preset.hasOwnProperty(prop)) {
+      if (this.defaultPreset.hasOwnProperty(prop)) {
         this.form.controls[prop].setValue(preset[prop]);
       }
     }

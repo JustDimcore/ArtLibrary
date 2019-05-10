@@ -7,11 +7,11 @@
           <span class="info">
             Last update: {{sprite.lastUpdate | date: 'dd/MM/y HH:mm:ss'}}<br>
           </span>
-          <a class="button edit-button" href="#">
-            <span class="mdi mdi-pencil preset-icon"></span>
-          </a>
+          <span class="link button edit-button">
+            <span class="link mdi mdi-pencil preset-icon"></span>
+          </span>
           <a class="button download-button" [href]="sprite.path" download target="_blank">
-            <span class="mdi mdi-download preset-icon"></span>
+            <span class="link mdi mdi-download preset-icon"></span>
           </a>
         </div>
         <div class="sprite-size">{{sprite.meta.width}} x {{sprite.meta.height}}</div>

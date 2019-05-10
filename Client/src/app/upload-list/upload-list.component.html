@@ -1,5 +1,5 @@
 <div class="upload">
-  <span (click)="showHideUploadList()" class="mdi mdi-upload">
+  <span (click)="showHideUploadList()" class="link mdi mdi-upload">
     <span *ngIf="countInProgress$ | async" class="count" >{{countInProgress$ | async}}</span>
   </span>
 
@@ -13,7 +13,7 @@
     <div class="arrow-top"></div>
 
     <div *ngIf="(uploadList$ | async).length > (countInProgress$ | async)" class="clear-done">
-        <a href="#" (click)="clearAllDone()">Clear done</a>
+        <span class="link" (click)="clearAllDone()">Clear done</span>
     </div>
 
     <div class="items-container">

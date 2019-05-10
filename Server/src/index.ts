@@ -28,11 +28,6 @@ let spritesList: SpriteInfo[];
 app.use(cors());
   app.use(fileUpload());
 
-app.get('/', (req: Request, res: Response) => {
-  res.redirect(urlGoogle());
-  //res.sendFile(path.join(__dirname, 'public/client/index.html'));
-});
-
 app.get('/search', (req: Request, res: Response) => {
   const filtered = req.query ? filterService.filter(spritesList, req.query) : spritesList;    
   res.send(filtered);
@@ -68,6 +63,11 @@ app.post('/upload', (req: Request, res: Response) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public/client/')));
+
+app.get('/*', (req: Request, res: Response) => {
+  //res.redirect(urlGoogle());
+  res.sendFile(path.join(__dirname, 'public/client/index.html'));
+});
 
 app.use(logErrors);
 app.use(clientErrorHandler);

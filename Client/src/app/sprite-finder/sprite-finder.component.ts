@@ -1,6 +1,6 @@
 import {Component, OnInit, HostListener, ElementRef, ViewChild} from '@angular/core';
-import {UploadService} from "../services/upload.service";
-import {FilterService} from "../services/filter.service";
+import {UploadService} from '../services/upload.service';
+import {FilterService} from '../services/filter.service';
 
 @Component({
   selector: 'app-sprite-finder',
@@ -31,7 +31,6 @@ export class SpriteFinderComponent implements OnInit {
     const bounds = content.getBoundingClientRect();
 
     if (content.offsetHeight <= window.innerHeight - bounds.y + this._nextPageLoadDistance) {
-      console.log(event);
       this._filterService.loadNextPage();
     }
   }

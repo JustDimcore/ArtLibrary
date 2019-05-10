@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable} from 'rxjs/index';
 @Injectable({
   providedIn: 'root'
 })
-export class PresetsService implements OnInit {
+export class PresetsService {
 
   defaultPresetName = 'New preset';
 
@@ -19,11 +19,9 @@ export class PresetsService implements OnInit {
 
   private _currentState = {};
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
     this.loadPresetsFromStorage();
-  }
+   }
 
   savePreset(presetName: string) {
     this.savePresetImpl(presetName, Object.assign({}, this._currentState));
@@ -55,7 +53,7 @@ export class PresetsService implements OnInit {
   }
 
   private loadPresetsFromStorage() {
-    this._presets = JSON.parse(localStorage.getItem('_presets')) || [];
+    this._presets.next(JSON.parse(localStorage.getItem('_presets')) || []);
   }
 
   removePreset(index) {

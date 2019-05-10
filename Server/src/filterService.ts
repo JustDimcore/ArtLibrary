@@ -18,7 +18,10 @@ export class FilterService {
     filter(files: SpriteInfo[], query: any): any[] {
         for(const filter in this._filters) {
             if(this._filters.hasOwnProperty(filter)) {
-                const str = query[filter];
+                let str = query[filter];
+                if(str) {
+                    str = str.trim();
+                }
                 files = str ? this._filters[filter](files, str) : files;
             }
         }
@@ -26,7 +29,7 @@ export class FilterService {
     }
 
     private static byString(files: SpriteInfo[], filterString: string): SpriteInfo[] {
-        const words = filterString.split(',').map(param => param.toLowerCase().trim());
+        const words = filterString.split(/[\s,]+/).map(param => param.toLowerCase().trim()).filter(w => w);
         const filtered = files.filter(file => words.some(word => FilterService.checkByWord(file, word)))
         return filtered;
     }

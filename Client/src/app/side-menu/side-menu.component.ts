@@ -48,7 +48,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(ch => this.onChange());
+    this.form.valueChanges.subscribe(() => this.onChange());
 
     this._presetService.currentPreset.subscribe(preset => this.setPreset(preset));
   }

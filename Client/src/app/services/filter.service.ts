@@ -49,7 +49,22 @@ export class FilterService {
     if (filter) {
       Object.assign(this._filters, filter);
     }
+
+    this.trimEmptyFilters(this._filters);
+
     this._load.next();
+  }
+
+  private trimEmptyFilters(filters: any) {
+    for (const prop in filters) {
+      if (!filters.hasOwnProperty(prop)) {
+        continue;
+      }
+
+      if (!filters[prop]) {
+        delete this._filters[prop];
+      }
+    }
   }
 
   public loadNextPage() {
