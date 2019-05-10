@@ -56,13 +56,14 @@ export class FilterService {
   }
 
   private trimEmptyFilters(filters: any) {
-    for (const prop in filters) {
-      if (!filters.hasOwnProperty(prop)) {
+    for (const propName in filters) {
+      if (!filters.hasOwnProperty(propName)) {
         continue;
       }
 
-      if (!filters[prop]) {
-        delete this._filters[prop];
+      const prop = filters[propName];
+      if (prop === undefined || prop === null) {
+        delete this._filters[propName];
       }
     }
   }
