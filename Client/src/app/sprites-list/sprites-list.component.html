@@ -2,7 +2,7 @@
   <div class="sprite-container" *ngFor="let sprite of sprites$ | async">
     <!-- <a [href]="sprite.path" download target="_blank"> -->
       <div class="sprite-img-holder">
-        <img class="sprite-img" [src]="sprite.preview | secure | async">
+        <img class="sprite-img" [src]="sprite.preview | secure">
         <div class="hidden-sprite-info">
           <span class="info">
             Last update: {{sprite.lastUpdate | date: 'dd/MM/y HH:mm:ss'}}<br>
@@ -10,7 +10,7 @@
           <span class="link button edit-button">
             <span class="link mdi mdi-pencil preset-icon"></span>
           </span>
-          <a class="button download-button" [href]="sprite.path | secure | async" download target="_blank">
+          <a class="button download-button" [href]="sprite.path | secure" download target="_blank">
             <span class="link mdi mdi-download preset-icon"></span>
           </a>
         </div>
