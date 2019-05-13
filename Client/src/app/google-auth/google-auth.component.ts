@@ -12,7 +12,7 @@ export class GoogleAuthComponent {
 
   constructor(router: Router, route: ActivatedRoute, auth: AuthService) {
     route.queryParams.pipe(
-      switchMap(params => auth.signIn(params['code']))
+      switchMap(params => auth.signInWithGoogle(params['code']))
     ).subscribe((res: any) => {
       if (!res.token) {
         router.navigate(['login']);

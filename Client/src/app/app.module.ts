@@ -10,7 +10,7 @@ import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { ZeroIsAnyDirective } from './directives/zeroIsAnyDirective';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SpriteFinderComponent } from './sprite-finder/sprite-finder.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadListComponent } from './upload-list/upload-list.component';
@@ -20,7 +20,8 @@ import { RouterModule, Routes} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { GoogleAuthComponent } from './google-auth/google-auth.component';
 import {HasTokenGuard} from './misc/has-token.guard';
-import {RequestInterceptor} from './misc/request.interceptor';
+import { RequestInterceptor } from './misc/request.interceptor';
+import { SecurePipe } from './secure.pipe';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     SizePipe,
     ProgressPipe,
     LoginComponent,
-    GoogleAuthComponent
+    GoogleAuthComponent,
+    SecurePipe
   ],
   imports: [
     BrowserModule,
@@ -59,16 +61,13 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
-  providers: [
-    HttpClient,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
-      multi: true
-    }
-  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: RequestInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

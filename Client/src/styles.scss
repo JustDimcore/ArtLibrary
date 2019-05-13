@@ -21,7 +21,7 @@ $mdi-font-path: "~@mdi/font/fonts";
   }
 }
 
-input[type=text], input[type=number] {
+input[type=text], input[type=number], input[type=password], input[type=email] {
   padding: 4px;
   font-size: 16px;
   border-radius: 3px;
