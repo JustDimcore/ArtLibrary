@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, RequestHandler } from "express";
 import path from "path";
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -14,6 +14,7 @@ import { GoogleSevice } from "./google-util";
 import { AccessService, Permission } from "./accessService";
 import jwtExpress from "express-jwt";
 import jwt from "jsonwebtoken";
+import { ErrorHandling } from "./errorHandling";
 
 
 // App init
@@ -28,6 +29,8 @@ const fileService = new FileService(fullArtPath, projectMetaService);
 const filterService = new FilterService();
 const previewService = new PreviewService(fullArtPath, fullPreviewPath);
 
+const errorHandling = new ErrorHandling();
+
 const enableGoogleAuth = process.env.ENABLE_GOOGLE_AUTH || false;
 const googleService = enableGoogleAuth ? new GoogleSevice() : null;
 
@@ -37,7 +40,8 @@ let spritesList: SpriteInfo[];
 
 app.use(cors());
 app.use(fileUpload());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
 
 function authorize(roles: any[] = []) {
   // roles param can be a single role string (e.g. Role.User or 'User') 
@@ -48,7 +52,7 @@ function authorize(roles: any[] = []) {
 
   return [
     // authenticate JWT token and attach user to request object (req.user)
-    jwtExpress({ secret: 'shhhhhhared-secret' }).unless({path: ['/config','/google-auth', '/auth']}),
+    jwtExpress({ secret: 'shhhhhhared-secret' }),
 
     // authorize based on user role
     (req: any, res: Response, next: NextFunction) => {
@@ -80,7 +84,7 @@ async function authenticate(userCreds: {username: string, password: string}) {
   }
 }
 
-app.use(authorize());
+//app.use(authorize());
 
 app.post('/auth', (req, res, next) => {
     console.log('auth');
@@ -125,26 +129,26 @@ if(enableGoogleAuth) {
   });
 }
 
-app.get('/search', (req: Request, res: Response) => {
+app.get('/search', [authorize(), (req: Request, res: Response) => {
   const filtered = req.query ? filterService.filter(spritesList, req.query) : spritesList;    
   res.send(filtered);
-});
+}] as RequestHandler[]);
 
-app.get('/list', (req: Request, res: Response) => {
+app.get('/list', [authorize(), (req: Request, res: Response) => {
   res.send(spritesList);
-});
+}] as RequestHandler[]);
 
 app.use('/art', express.static(path.join(__dirname, 'public/art/')));
 app.use('/preview', express.static(path.join(__dirname, 'public/preview/')));
 
 app.post('/upload', (req: Request, res: Response) => {
+  console.log(req.files.length);
   if(!req.files || !req.files['fileKey'])
   {
-    console.log(req);
+    console.log('No file');
     res.status(503).send({error: 'No file'});
     return;
   }
-  console.log(req.files);
   const fileKey = req.files['fileKey'];
   const files = (Array.isArray(fileKey) ? fileKey : [fileKey]) as any[];
 
@@ -159,6 +163,9 @@ app.post('/upload', (req: Request, res: Response) => {
   })();
 });
 
+app.get('/art',[authorize(), express.static(path.join(__dirname, 'public/client/'))] as RequestHandler[]);
+app.get('/preview',[authorize(), express.static(path.join(__dirname, 'public/client/'))] as RequestHandler[]);
+
 app.use(express.static(path.join(__dirname, 'public/client/')));
 
 app.get('/*', (req: Request, res: Response) => {
@@ -166,11 +173,7 @@ app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'public/client/index.html'));
 });
 
-app.use(logErrors);
-app.use(authError);
-app.use(clientErrorHandler);
-app.use(errorHandler);
-
+errorHandling.handle(app);
 
 (async function() {
   // Get sprites list
@@ -182,28 +185,3 @@ app.use(errorHandler);
     console.log(`Listening on port ${port}!`);
   });
 })();
-
-function logErrors(err: any, req: Request, res: Response, next: NextFunction) {
-  next(err);
-}
-
-function authError(err: any, req: Request, res: Response, next: NextFunction) {
-  if(err.name === 'UnauthorizedError') {
-    res.status(401).send({error: 'wrong token or no token at all'});
-    return;
-  }
-  next(err);
-}
-
-function clientErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-  if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' });
-  } else {
-    next(err);
-  }
-}
-
-function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-  res.status(500);
-  res.render('error', { error: err });
-}
