@@ -1,5 +1,5 @@
 <div class="main">
-  <div class="google-button" (click)="loginByGoogle()">
-    <span class="text">Login by google</span><span class="google-icon"></span>
+  <div *ngIf="isConfigLoaded" class="link google-button" (click)="loginByGoogle()">
+    <span class="google-icon"></span><span class="text">Login with Google</span>
   </div>
 </div>

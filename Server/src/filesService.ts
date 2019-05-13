@@ -40,7 +40,7 @@ export class FileService {
     this._isDirty = false;
   }
   
-  private async refreshFilesListByPath(filePath?: string, outputList?: SpriteInfo[]): Promise<void> {
+  private async refreshFilesListByPath(filePath?: string): Promise<void> {
     filePath = filePath || '';
     const fullPath = path.join(this._dirPath, filePath);
     var stats = await promisify(fs.lstat)(fullPath);
@@ -58,7 +58,6 @@ export class FileService {
 
   async addSpriteInfo(filePath: string) {
     const fullPath = path.join(this._dirPath, filePath);
-    console.log(fullPath);
     const sprite = {} as SpriteInfo;
     sprite.path = filePath;
     sprite.name = path.basename(filePath);

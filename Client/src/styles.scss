@@ -4,6 +4,12 @@ $mdi-font-path: "~@mdi/font/fonts";
 @import "~@mdi/font/scss/materialdesignicons.scss";
 @import "variables.scss";
 
+* {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  color: $text-color;
+}
+
 
 .filter-title {
   font-weight: bold;
@@ -32,6 +38,7 @@ input[type=text], input[type=number] {
 
 .link {
   cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
 }
 
 .input-with-button {

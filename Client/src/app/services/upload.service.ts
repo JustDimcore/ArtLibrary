@@ -146,7 +146,7 @@ export class UploadService {
   }
 
   private postFile(fileToUpload: File): FileUploadStatus {
-    const endpoint = environment.uploadUrl;
+    const endpoint = environment.backendUrl + '/upload';
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
     const headers = {};

@@ -1,14 +1,17 @@
 import express, { Request, Response } from "express";
 import path from "path";
-import { FileService } from "./filesService";
 import cors from 'cors';
+import bodyParser from 'body-parser';
+import fileUpload from "express-fileupload";
+
+import { FileService } from "./filesService";
 import { SpriteMetaService } from "./spriteMetaService";
 import { FilterService } from "./filterService";
 import { PreviewService } from "./previewService";
-import fileUpload from "express-fileupload";
 import { NextFunction } from "connect";
 import { SpriteInfo } from "./spriteInfo";
-import { urlGoogle } from "./google-util";
+import { GoogleSevice } from "./google-util";
+import { AccessService, Permission } from "./accessService";
 
 
 // App init
@@ -23,10 +26,50 @@ const fileService = new FileService(fullArtPath, projectMetaService);
 const filterService = new FilterService();
 const previewService = new PreviewService(fullArtPath, fullPreviewPath);
 
+const enableGoogleAuth = process.env.ENABLE_GOOGLE_AUTH || true;
+const googleService = enableGoogleAuth ? new GoogleSevice() : null;
+
+const accessService = new AccessService();
+
 let spritesList: SpriteInfo[];
 
 app.use(cors());
-  app.use(fileUpload());
+app.use(fileUpload());
+app.use(bodyParser.json());
+
+app.get('/config', (req: Request, res: Response) => {
+  res.send({
+    enableGoogleAuth,
+    googleAuthUrl: enableGoogleAuth ? googleService.getGoogleUrl() : ''
+  });
+});
+
+app.post('/google-auth', (req: Request, res: Response) => {
+
+  console.log(req.body);
+  const code = req.body['code'];
+  if (!code) {
+    res.status(401).send('Invalid code');
+  }
+
+  googleService.getGoogleAccountFromCode(code)
+    .catch((error) => {
+      console.log(error);
+      res.status(401).send(error);
+    }).then((account: {hd: string, email: string}) => {
+      console.log(account);
+
+      const userPermissions = accessService.getUserPermissions(account.email);
+
+      if (!userPermissions) {
+        accessService.grantPermissions(account.email, Permission.View);
+      }
+
+      const hasPermissions = accessService.hasPermission(account.email, Permission.View);
+
+      res.status(hasPermissions ? 200 : 403).send(hasPermissions ? account : { error: 'access denied' });
+    });
+});
 
 app.get('/search', (req: Request, res: Response) => {
   const filtered = req.query ? filterService.filter(spritesList, req.query) : spritesList;    

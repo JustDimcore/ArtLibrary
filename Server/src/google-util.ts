@@ -1,47 +1,64 @@
 import { google } from 'googleapis';
 import { OAuth2Client } from 'googleapis-common';
 
-const googleConfig = {
-  clientId: '<CLIENT_ID>', // e.g. asdfghjkljhgfdsghjk.apps.googleusercontent.com
-  clientSecret: '<SECRET>', // e.g. _ASDFA%DFASDFASDFASD#FAD-
-  redirect: 'http://your-site/google-auth' // this must match your google api settings
-};
+export class GoogleSevice {
+    
+    private googleConfig = {
+        clientId: '982744768591-7q3jl2e5uvc67hmti4bcff060jcmq12b.apps.googleusercontent.com',
+        clientSecret: 'JmOMnQbZrsnhqCpmKIMmdcku',
+        redirect: 'http://dimcore-37633.portmap.host:37633/google-auth'
+    };
 
-/**
- * Create the google auth object which gives us access to talk to google's apis.
- */
-function createConnection(): OAuth2Client {
-  return new google.auth.OAuth2(
-    googleConfig.clientId,
-    googleConfig.clientSecret,
-    googleConfig.redirect
-  );
+    private defaultScope = [
+        'https://www.googleapis.com/auth/plus.me',
+        'https://www.googleapis.com/auth/userinfo.email',
+    ];
+
+    /**
+     * Create the google url to be sent to the client.
+     */
+    getGoogleUrl(): string {
+        const auth = this.createConnection(); // this is from previous step
+        const url = this.getConnectionUrl(auth);
+        return url;
+    }
+
+    /**
+     * Extract the email and id of the google account from the "code" parameter.
+     */
+    public async getGoogleAccountFromCode(code: string): Promise<any> {
+  
+        const oauth2Client = this.createConnection() as OAuth2Client;
+        // get the auth "tokens" from the request
+        const {tokens} = await oauth2Client.getToken(code);
+    
+        // add the tokens to the google api so we have access to the account
+        oauth2Client.setCredentials(tokens);
+
+        const oath2 = google.oauth2({ version: 'v1', auth: oauth2Client });
+
+        const {data} = await oath2.userinfo.v2.me.get({auth: oauth2Client});
+        return {
+            email: data.email,
+            hd: data.hd,
+            picture: data.picture,
+            token: tokens.access_token
+        };
+    }
+
+    private createConnection(): OAuth2Client {
+        return new google.auth.OAuth2(
+            this.googleConfig.clientId,
+            this.googleConfig.clientSecret,
+            this.googleConfig.redirect
+        );
+    }
+  
+    private getConnectionUrl(auth: OAuth2Client): string {
+      return auth.generateAuthUrl({
+        access_type: 'offline',
+        prompt: 'consent', // access type and approval prompt will force a new refresh token to be made each time signs in
+        scope: this.defaultScope
+      });
+    }
 }
-
-/**
- * This scope tells google what information we want to request.
- */
-const defaultScope = [
-    'https://www.googleapis.com/auth/plus.me',
-    'https://www.googleapis.com/auth/userinfo.email',
-  ];
-  
-  /**
-   * Get a url which will open the google sign-in page and request access to the scope provided (such as calendar events).
-   */
-  function getConnectionUrl(auth: OAuth2Client): string {
-    return auth.generateAuthUrl({
-      access_type: 'offline',
-      prompt: 'consent', // access type and approval prompt will force a new refresh token to be made each time signs in
-      scope: defaultScope
-    });
-  }
-  
-  /**
-   * Create the google url to be sent to the client.
-   */
-  export function urlGoogle(): string {
-    const auth = createConnection(); // this is from previous step
-    const url = getConnectionUrl(auth);
-    return url;
-  }
