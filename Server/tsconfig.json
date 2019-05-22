@@ -2,7 +2,6 @@
   "compilerOptions": {
       "module": "commonjs",
       "allowJs": true,
-      "esModuleInterop": true,
       "target": "es6",
       "noImplicitAny": true,
       "moduleResolution": "node",
@@ -15,9 +14,7 @@
               "src/types/*"
           ]
       },
-      "lib": [
-          "es2015"
-      ]
+      "lib": ["es2015", "es2017"]
   },
   "include": [
       "src/**/*"

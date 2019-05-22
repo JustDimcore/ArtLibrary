@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
+import * as express from 'express'; 
+import { Request, Response, NextFunction } from 'express';
 
 export class ErrorHandling {
 
@@ -14,7 +15,7 @@ export class ErrorHandling {
     }
       
     private authError(err: any, req: Request, res: Response, next: NextFunction) {
-      if(err.name === 'UnauthorizedError') {
+      if (err.name === 'UnauthorizedError') {
         res.status(401).send({error: 'wrong token or no token at all'});
         return;
       }

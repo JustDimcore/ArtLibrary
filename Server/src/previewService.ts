@@ -1,9 +1,10 @@
-import { SpriteInfo } from "./spriteInfo";
-import fs from "fs";
-import path from "path";
-import sharp, { OutputInfo } from "sharp";
-import { promisify } from "util";
-import del from "del";
+import { SpriteInfo } from './spriteInfo';
+import * as fs from 'fs';
+import * as path from 'path';
+import { OutputInfo } from 'sharp';
+import * as  sharp from 'sharp';
+import { promisify } from 'util';
+import del from 'del';
 
 
 export class PreviewService {
@@ -21,7 +22,7 @@ export class PreviewService {
   }
 
   public async updatePreviews(sprites: SpriteInfo[], meesingOnly: boolean) {
-    if(!this._previews) {
+    if (!this._previews) {
       await this.init(meesingOnly);
     }
 
@@ -32,13 +33,13 @@ export class PreviewService {
     await this.createPreviews(sprites);
   }
 
-  public async init(meesingOnly: boolean) {
+  public async init(missingOnly: boolean) {
     const exists = await promisify(fs.exists)(this._previewsPath);
-    if (exists && !meesingOnly) {
+    if (exists && !missingOnly) {
       await del(this._previewsPath);
     }
 
-    if(!exists || !meesingOnly) {
+    if (!exists || !missingOnly) {
       await promisify(fs.mkdir)(this._previewsPath, {recursive: true});
     }
 
@@ -53,15 +54,15 @@ export class PreviewService {
       const inputPath = path.join(this._originalsPath, sprite.path);
       const outputPath = path.join(this._previewsPath, sprite.name);
       const image = sharp(inputPath);
-      const preview = image.resize(this.previewWidth, this.previewHeight, {fit: 'inside', withoutEnlargement: true})
+      const preview = image.resize(this.previewWidth, this.previewHeight, {fit: 'inside', withoutEnlargement: true});
 
       const promise = preview
         .toFormat(sprite.meta.format, {quality: this.quality, compressionLevel: this.compressionLevel})
         .toFile(outputPath);
       
-      promise.catch(error => {
+      promise.catch((error: any) => {
         console.log(`Error: ${sprite.name}: ${error}`);
-      })
+      });
 
       promises.push(promise);
     });

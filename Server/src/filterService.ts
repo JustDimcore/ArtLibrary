@@ -1,4 +1,4 @@
-import { SpriteInfo } from "./spriteInfo";
+import { SpriteInfo } from './spriteInfo';
 
 type Filter = (files: any[], filterString: string) => any[];     
 
@@ -16,10 +16,10 @@ export class FilterService {
     };
 
     filter(files: SpriteInfo[], query: any): any[] {
-        for(const filter in this._filters) {
-            if(this._filters.hasOwnProperty(filter)) {
+        for (const filter in this._filters) {
+            if (this._filters.hasOwnProperty(filter)) {
                 let str = query[filter];
-                if(str) {
+                if (str) {
                     str = str.trim();
                 }
                 files = str ? this._filters[filter](files, str) : files;
@@ -30,7 +30,7 @@ export class FilterService {
 
     private static byString(files: SpriteInfo[], filterString: string): SpriteInfo[] {
         const words = filterString.split(/[\s,]+/).map(param => param.toLowerCase().trim()).filter(w => w);
-        const filtered = files.filter(file => words.some(word => FilterService.checkByWord(file, word)))
+        const filtered = files.filter(file => words.some(word => FilterService.checkByWord(file, word)));
         return filtered;
     }
 
@@ -41,42 +41,47 @@ export class FilterService {
     private static byAlpha(files: SpriteInfo[], filterString: string): SpriteInfo[] {
         filterString = filterString.toLowerCase();
         let flag = ['true', 'yes'].indexOf(filterString) > -1;
-        if(!flag) {
-            if(['false', 'no'].indexOf(filterString) > -1)
+        if (!flag) {
+            if (['false', 'no'].indexOf(filterString) > -1) {
                 flag = false;
-            else
+            } else {
                 return files;
+            }
         }
 
-        const filtered = files.filter(file => Boolean(file.meta.hasAlpha) == flag);
+        const filtered = files.filter(file => Boolean(file.meta.hasAlpha) === flag);
         return filtered;
     }
 
     private static byMinX(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
         const value = Number.parseInt(filterString);
-        if(Number.isNaN(value))
+        if (Number.isNaN(value)) {
             return sprites;
+        }
         return sprites.filter(sprite => sprite.meta.width >= value);
     }
 
     private static byMaxX(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
         const value = Number.parseInt(filterString);
-        if(Number.isNaN(value))
+        if (Number.isNaN(value)) {
             return sprites;
+        }
         return sprites.filter(sprite => sprite.meta.width <= value);
     }
 
     private static byMinY(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
         const value = Number.parseInt(filterString);
-        if(Number.isNaN(value))
+        if (Number.isNaN(value)) {
             return sprites;
+        }
         return sprites.filter(sprite => sprite.meta.height >= value);
     }
 
     private static byMaxY(sprites: SpriteInfo[], filterString: string): SpriteInfo[] {
         const value = Number.parseInt(filterString);
-        if(Number.isNaN(value))
+        if (Number.isNaN(value)) {
             return sprites;
+        }
         return sprites.filter(sprite => sprite.meta.height <= value);
     }
 
