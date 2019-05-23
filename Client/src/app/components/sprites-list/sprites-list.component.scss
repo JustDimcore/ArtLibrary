@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../../variables";
 
 .content {
   flex-grow: 1;
@@ -30,7 +30,7 @@
     width: $max-image-width;
     height: $max-image-height;
     display: table-cell;
-    background: url("../../assets/tranparency.png");
+    background: url("../../../assets/tranparency.png");
     vertical-align: middle;
     text-align: center;
 

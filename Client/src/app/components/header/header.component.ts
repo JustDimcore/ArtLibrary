@@ -1,8 +1,8 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {FilterService} from '../services/filter.service';
+import {FilterService} from '../../services/filter.service';
 import {debounceTime} from 'rxjs/internal/operators';
-import {PresetsService} from '../services/presets.service';
+import {PresetsService} from '../../services/presets.service';
 
 @Component({
   selector: 'app-header',

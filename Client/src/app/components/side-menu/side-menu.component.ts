@@ -1,8 +1,8 @@
 import {Component, OnInit, HostListener} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PresetsService} from '../services/presets.service';
+import {PresetsService} from '../../services/presets.service';
 import {Observable} from 'rxjs/index';
-import {FilterService} from '../services/filter.service';
+import {FilterService} from '../../services/filter.service';
 
 export enum SimpleState {
   Any = 'Any',

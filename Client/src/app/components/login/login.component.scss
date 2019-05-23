@@ -1,4 +1,4 @@
-@import "../../variables";
+@import "../../../variables";
 
 :host {
   position: absolute;
@@ -40,7 +40,7 @@
   }
 
   .google-icon {
-    background-image: url(../../assets/google.png);
+    background-image: url(../../../assets/google.png);
     width: 32px;
     height: 32px;
     display: inline-block;

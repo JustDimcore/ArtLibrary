@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {switchMap} from 'rxjs/internal/operators';
 
 @Component({

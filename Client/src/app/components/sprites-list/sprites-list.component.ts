@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/index';
-import {FilterService} from '../services/filter.service';
-import { UploadService } from '../services/upload.service';
+import {FilterService} from '../../services/filter.service';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-sprites-list',

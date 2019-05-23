@@ -1,5 +1,5 @@
 import {Component, HostListener} from '@angular/core';
-import {FileUploadStatus, UploadService, UploadStatus} from '../services/upload.service';
+import {FileUploadStatus, UploadService, UploadStatus} from '../../services/upload.service';
 import {merge, Observable} from 'rxjs/index';
 import { map } from 'rxjs/operators';
 import {switchMap} from 'rxjs/internal/operators';

@@ -1,6 +1,6 @@
 import {Component, OnInit, HostListener, ElementRef, ViewChild} from '@angular/core';
-import {UploadService} from '../services/upload.service';
-import {FilterService} from '../services/filter.service';
+import {UploadService} from '../../services/upload.service';
+import {FilterService} from '../../services/filter.service';
 
 @Component({
   selector: 'app-sprite-finder',
