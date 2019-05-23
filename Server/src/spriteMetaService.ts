@@ -1,5 +1,5 @@
-import fs from "fs";
-import { promisify } from "util";
+import * as fs from 'fs';
+import { promisify } from 'util';
 
 export class SpriteMetaService {
     async getSpriteMeta(fullPath: string): Promise<{}> { 

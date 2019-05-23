@@ -169,6 +169,7 @@ export class UploadService {
 
     status.status.next(UploadStatus.Waiting);
 
+    console.log(formData);
     status.request = this._httpClient
       .post(endpoint, formData, {
         headers: headers,

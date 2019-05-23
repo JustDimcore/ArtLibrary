@@ -1,36 +1,37 @@
-import fs, { PathLike } from "fs";
-import path from "path";
-import { SpriteInfo } from "./spriteInfo";
-import sharp from "sharp";
-import { SpriteMetaService } from "./spriteMetaService";
-import { promisify } from "util";
+import * as fs from 'fs';
+import * as path from 'path';
+import { SpriteInfo } from './spriteInfo';
+import * as sharp from 'sharp';
+import { SpriteMetaService } from './spriteMetaService';
+import { promisify } from 'util';
 
 export class FileService {
 
   private _filesList: SpriteInfo[];
   private _isDirty = true;
-  private _extensions = ['.jpeg','.png','.jpg','.bmp','.gif'];
+  private _extensions = ['.jpeg', '.png', '.jpg', '.bmp', '.gif'];
 
   constructor(private _dirPath: string, private _projectMetaService: SpriteMetaService) {
   }
 
   watch() {
-    fs.watch(this._dirPath, {recursive : true} ,(event, filename) => {
+    fs.watch(this._dirPath, {recursive : true} , (event, filename) => {
       console.log(filename);
       console.log(event);
     });
   }
 
   public async getFilePaths() {
-    if(this._isDirty)
+    if (this._isDirty) {
       await this.refreshFilesList();
+    }
     
     return this._filesList;
   }
 
   public async refreshFilesList() {
     // create sprites directory
-    if (!fs.existsSync(this._dirPath)){
+    if (!fs.existsSync(this._dirPath)) {
       await promisify(fs.mkdir)(this._dirPath, {recursive: true});
       //this.watch();
     }
@@ -43,15 +44,13 @@ export class FileService {
   private async refreshFilesListByPath(filePath?: string): Promise<void> {
     filePath = filePath || '';
     const fullPath = path.join(this._dirPath, filePath);
-    var stats = await promisify(fs.lstat)(fullPath);
-    if(stats.isDirectory())
-    {
+    const stats = await promisify(fs.lstat)(fullPath);
+    if (stats.isDirectory()) {
       const files = fs.readdirSync(fullPath);
-      for(const file of files) {
+      for (const file of files) {
         await this.refreshFilesListByPath(path.join(filePath, file));
       }
-    }
-    else if(this.isNeededExtension(filePath)){
+    } else if (this.isNeededExtension(filePath)) {
       await this.addSpriteInfo(filePath);
     }
   }
@@ -66,8 +65,8 @@ export class FileService {
     const stat = await promisify(fs.stat)(fullPath);
     sprite.lastUpdate = stat.mtimeMs;
 
-    const oldIndex = this._filesList.findIndex(file => file.name == sprite.name);
-    if(oldIndex > -1) {
+    const oldIndex = this._filesList.findIndex(file => file.name === sprite.name);
+    if (oldIndex > -1) {
       this._filesList[oldIndex] = sprite;
     } else {
       this._filesList.push(sprite);
@@ -76,10 +75,11 @@ export class FileService {
     return sprite;
   }
 
-  isNeededExtension(path: string) {
-    for(const ext of this._extensions) {
-      if(path.endsWith(ext))
+  isNeededExtension(filePath: string) {
+    for (const ext of this._extensions) {
+      if (filePath.endsWith(ext)) {
         return true;
+      }
     }
     return false;
   }
