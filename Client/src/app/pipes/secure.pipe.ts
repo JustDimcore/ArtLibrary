@@ -8,7 +8,7 @@ import {
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
 @Pipe({
@@ -39,7 +39,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
   }
 
   transform(url: string): any {
-      let obj = this.internalTransform(url);
+      const obj = this.internalTransform(url);
       return this.asyncTrasnform(obj);
   }
 
