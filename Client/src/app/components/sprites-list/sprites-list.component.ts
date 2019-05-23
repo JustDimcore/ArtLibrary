@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/index';
 import {FilterService} from '../../services/filter.service';
 import { UploadService } from '../../services/upload.service';
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-sprites-list',
@@ -12,6 +13,7 @@ export class SpritesListComponent implements OnInit {
 
   sprites$: Observable<any[]>;
   isLoading$: Observable<boolean>;
+  initializing = true;
 
   constructor(private _filterService: FilterService, private _uploadService: UploadService) {
   }
@@ -25,5 +27,13 @@ export class SpritesListComponent implements OnInit {
         this._filterService.loadSprites();
       }
     });
+
+    this.sprites$
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => {
+        this.initializing = false;
+      });
   }
 }
