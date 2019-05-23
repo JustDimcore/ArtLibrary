@@ -1,0 +1,22 @@
+<div>
+  <div class="logo-container">
+    <a class="logo-link" href='#'>
+      <img src="../../../assets/logo.png">
+      <span class="logo-text">Sprite Cat</span>
+    </a>
+  </div>
+
+  <form class="search-form" [formGroup]="form">
+    <input #searchInput type="text" placeholder="Name, tag, atlas, etc." formControlName="search">
+    <div class="help-button">
+      <span (click)="showHelp()" class="link mdi mdi-help-circle"></span>
+      <div class="help-box" [ngStyle]="{display: displayHelp ? 'block' : 'none'}">
+        <div class="arrow-top"></div>
+        <b>Ctrl+F</b> or <b>F3</b> to focus on search string.<br><br>
+        Write multiple filters comma separated i.e. <span (click)="setExample()" class="link search-example">{{searchExample}}</span>
+      </div>
+    </div>
+  </form>
+
+  <app-upload-list></app-upload-list>
+</div>

@@ -1,0 +1,39 @@
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/index';
+import {FilterService} from '../../services/filter.service';
+import { UploadService } from '../../services/upload.service';
+import {take} from "rxjs/operators";
+
+@Component({
+  selector: 'app-sprites-list',
+  templateUrl: './sprites-list.component.html',
+  styleUrls: ['./sprites-list.component.scss']
+})
+export class SpritesListComponent implements OnInit {
+
+  sprites$: Observable<any[]>;
+  isLoading$: Observable<boolean>;
+  initializing = true;
+
+  constructor(private _filterService: FilterService, private _uploadService: UploadService) {
+  }
+
+  ngOnInit() {
+    this.sprites$ = this._filterService.spritesSource;
+    this.isLoading$ = this._filterService.isLoadingSource;
+    this._filterService.loadSprites();
+    this._uploadService.allDone.subscribe((hasNew) => {
+      if (hasNew) {
+        this._filterService.loadSprites();
+      }
+    });
+
+    this.sprites$
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => {
+        this.initializing = false;
+      });
+  }
+}

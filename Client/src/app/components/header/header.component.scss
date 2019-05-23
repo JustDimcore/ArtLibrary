@@ -1,0 +1,130 @@
+@import "../../../variables";
+
+:host {
+  display: block;
+}
+
+:host > div {
+  background-color: $light-background;
+  border: $light-border;
+  height: 100%;
+  box-sizing: border-box;
+
+  position: relative;
+}
+
+.logo-container {
+
+  width: $side-panel-width;
+  display: inline-block;
+  margin: 0px 20px 0px 10px;
+
+  .logo-link {
+    position: relative;
+    display: inline-block;
+    top: 5px;
+
+    .logo-text {
+      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-weight: 700;
+      position: relative;
+      top: -16px;
+    }
+
+    img {
+      max-height: 35px;
+      top: 0px;
+      position: relative;
+      margin: 5px;
+      margin-right: 10px;
+
+      &:hover {
+        animation: shaking 200ms 2;
+      }
+
+      @keyframes shaking {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(15deg);
+        }
+        60% {
+          transform: rotate(-10deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+    }
+
+    &:active, &:link, &:hover, &:visited {
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
+}
+
+.search-form {
+  position: absolute;
+  left: $side-panel-width;
+  margin-left: 20px;
+  height: 100%;
+  display: flex;
+  right: 245px;
+  top: 0;
+
+  input {
+    flex-grow: 1;
+    height: 34px;
+    top: 12px;
+    position: relative;
+    padding: 7px;
+    box-sizing: border-box;
+  }
+}
+
+.help-button {
+  position: relative;
+  margin-left: 5px;
+  position: relative;
+  top: 15px;
+
+  .mdi {
+    font-size: 20px;
+    color: $text-color;
+
+    &:hover {
+      color: $light-text-color;
+    }
+    &:active {
+      color: $text-color;
+    }
+  }
+}
+
+.help-box {
+
+  $width: 200px;
+
+  width: $width;
+  position: absolute;
+  top: 35px;
+  left: -#{$width/2};
+  background-color: $medium-background;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 5;
+
+  .search-example {
+    border-bottom: dashed 1px #{$dark-text-color};
+    text-decoration: none;
+    color: $dark-text-color;
+  }
+
+  .arrow-top {
+    left: #{$width/2};
+    top: -10px;
+  }
+}
