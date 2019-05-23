@@ -4,9 +4,17 @@
       <img src="../../../assets/logo.png">
       <span class="logo-text">Sprite Cat</span>
     </a>
+
+    <div style="flex-grow: 1"></div>
+
+    <nav class="main-menu">
+      <a [routerLink]="['/sprites/search']" [routerLinkActive]="['activeRoute']" class="material-icons">search</a>
+      <a [routerLink]="['/sprites/categories']" [routerLinkActive]="['activeRoute']" class="material-icons">folder</a>
+    </nav>
+
   </div>
 
-  <form class="search-form" [formGroup]="form">
+  <form *ngIf="(childRoute | async) === 'search'" class="search-form" [formGroup]="form">
     <input #searchInput type="text" placeholder="Name, tag, atlas, etc." formControlName="search">
     <div class="help-button">
       <span (click)="showHelp()" class="link mdi mdi-help-circle"></span>

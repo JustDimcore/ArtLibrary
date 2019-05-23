@@ -1,4 +1,4 @@
-<div #content class="content">
+<div #container class="content">
   <div class="sprite-container" *ngFor="let sprite of sprites$ | async">
 
       <div class="sprite-img-holder">
@@ -23,9 +23,7 @@
     </div>
   </div>
 
-  <div class="empty-list"
-       [ngClass]="{ short: (sprites$ | async).length > 0 }"
-  >
+  <div class="empty-list">
     <div class="not-found"
          [style.opacity]="(!initializing && !(isLoading$ | async) && (sprites$ | async).length === 0) ? 1 : 0"
          >

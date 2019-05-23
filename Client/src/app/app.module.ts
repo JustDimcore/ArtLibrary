@@ -26,9 +26,9 @@ import { SecurePipe } from './pipes/secure.pipe';
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'google-auth', component: GoogleAuthComponent },
-  { path: 'sprites', component: SpriteFinderComponent, canActivate: [HasTokenGuard] },
-  { path: '',
-    redirectTo: '/sprites',
+  { path: 'sprites/:child', component: SpriteFinderComponent, canActivate: [HasTokenGuard] },
+  { path: '**',
+    redirectTo: '/sprites/search',
     pathMatch: 'full'
   }
 ];

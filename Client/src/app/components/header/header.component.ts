@@ -1,8 +1,10 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {FilterService} from '../../services/filter.service';
-import {debounceTime} from 'rxjs/internal/operators';
+import {map} from 'rxjs/internal/operators';
 import {PresetsService} from '../../services/presets.service';
+import {ActivatedRoute} from "@angular/router";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -15,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   searchExample = 'progress, background, experience';
   displayHelp = false;
+  childRoute: Observable<string>;
 
   private _skipHelpHiding = false;
 
@@ -27,7 +30,11 @@ export class HeaderComponent implements OnInit {
     }
   );
 
-  constructor(private _filterService: FilterService, private _presetService: PresetsService) { }
+  constructor(private _filterService: FilterService, private _presetService: PresetsService, private route: ActivatedRoute) {
+    this.childRoute = route.params.pipe(
+      map(({child}) => child)
+    );
+  }
 
   ngOnInit() {
     this.form.valueChanges
@@ -44,7 +51,12 @@ export class HeaderComponent implements OnInit {
     // F3 and ctrl+f
     if (event.keyCode === 114 || (event.ctrlKey && event.keyCode === 70)) {
       event.preventDefault();
-      this.selectSearchField();
+      this.selectSearchField(true);
+    }
+
+    if(event.keyCode === 27) {
+      event.preventDefault();
+      this.selectSearchField(false);
     }
   }
 
@@ -57,8 +69,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  selectSearchField() {
-    this.searchInput.nativeElement.select();
+  selectSearchField(select: boolean = true) {
+    if(select)
+      this.searchInput.nativeElement.select();
+    else
+      this.searchInput.nativeElement.blur();
   }
 
   setPreset(preset) {

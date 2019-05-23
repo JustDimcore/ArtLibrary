@@ -165,6 +165,7 @@
   }
 
   .not-found, .loading {
+    opacity: 0;
     transition: opacity 0.25s;
     position: absolute;
     left: 0;
@@ -184,6 +185,7 @@
       width: 100px;
       height: 100px;
       background-size: contain;
+      opacity: 0.6;
     }
 
     .not-found-text {

@@ -1,6 +1,9 @@
 import {Component, OnInit, HostListener, ElementRef, ViewChild} from '@angular/core';
 import {UploadService} from '../../services/upload.service';
 import {FilterService} from '../../services/filter.service';
+import { ActivatedRoute } from '@angular/router';
+import {map} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-sprite-finder',
@@ -9,30 +12,23 @@ import {FilterService} from '../../services/filter.service';
 })
 export class SpriteFinderComponent implements OnInit {
 
-  @ViewChild('container') _container: ElementRef;
   showFileDropArea: boolean;
+  childRoute: Observable<string>;
 
-  private _nextPageLoadDistance = 500;
   private _dragCounter = 0;
 
-  constructor(private _uploadService: UploadService, private _filterService: FilterService) {
+  constructor(private _uploadService: UploadService, private _filterService: FilterService, private route: ActivatedRoute) {
     this._filterService.onRefresh
       .subscribe(() => {
         document.documentElement.scrollTop = 0;
       });
+
+    this.childRoute = route.params.pipe(
+      map(({child}) => child)
+    );
   }
 
   ngOnInit() {
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  scroll(event) {
-    const content = this._container.nativeElement;
-    const bounds = content.getBoundingClientRect();
-
-    if (content.offsetHeight <= window.innerHeight - bounds.y + this._nextPageLoadDistance) {
-      this._filterService.loadNextPage();
-    }
   }
 
   @HostListener('window:dragover', ['$event'])

@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/index';
 import {FilterService} from '../../services/filter.service';
 import { UploadService } from '../../services/upload.service';
-import {take} from "rxjs/operators";
+import {take, skip, map} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-sprites-list',
@@ -14,8 +15,26 @@ export class SpritesListComponent implements OnInit {
   sprites$: Observable<any[]>;
   isLoading$: Observable<boolean>;
   initializing = true;
+  @ViewChild('container') _container: ElementRef;
+
+  private _nextPageLoadDistance = 500;
+
 
   constructor(private _filterService: FilterService, private _uploadService: UploadService) {
+    this._filterService.onRefresh
+      .subscribe(() => {
+        document.documentElement.scrollTop = 0;
+      });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  scroll(event) {
+    const content = this._container.nativeElement;
+    const bounds = content.getBoundingClientRect();
+
+    if (content.offsetHeight <= window.innerHeight - bounds.y + this._nextPageLoadDistance) {
+      this._filterService.tryLoadNextPage();
+    }
   }
 
   ngOnInit() {
@@ -30,6 +49,7 @@ export class SpritesListComponent implements OnInit {
 
     this.sprites$
       .pipe(
+        skip(1),
         take(1)
       )
       .subscribe(() => {

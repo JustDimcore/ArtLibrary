@@ -16,27 +16,26 @@
 .logo-container {
 
   width: $side-panel-width;
-  display: inline-block;
-  margin: 0px 20px 0px 10px;
+  margin: 0 20px 0 10px;
+
+  display: flex;
+  align-items: center;
+  height: 100%;
 
   .logo-link {
-    position: relative;
-    display: inline-block;
-    top: 5px;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
 
     .logo-text {
       font-family: "Open Sans", "Helvetica Neue", sans-serif;
       font-weight: 700;
       position: relative;
-      top: -16px;
     }
 
     img {
       max-height: 35px;
-      top: 0px;
-      position: relative;
-      margin: 5px;
-      margin-right: 10px;
+      margin: 5px 10px 5px 5px;
 
       &:hover {
         animation: shaking 200ms 2;
@@ -62,6 +61,29 @@
       color: $text-color;
       text-decoration: none;
     }
+  }
+}
+
+.main-menu {
+  display: flex;
+
+  a {
+    padding: 5px;
+    margin: 1px;
+    border-radius: 2px;
+    text-decoration: none;
+
+    &:active {
+      background-color: $button-active;
+    }
+
+    &:hover {
+      background-color: $button-hover;
+    }
+  }
+
+  .activeRoute {
+    background-color: $button-hover;
   }
 }
 
