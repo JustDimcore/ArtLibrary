@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs/index';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {debounceTime} from 'rxjs/internal/operators';
+import {debounceTime, map, tap} from 'rxjs/internal/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +76,7 @@ export class FilterService {
       }
 
       const prop = filters[propName];
-      if (prop === undefined || prop === null) {
+      if (!prop && prop !== 0) {
         delete this._userFilters[propName];
       }
     }
@@ -94,8 +94,8 @@ export class FilterService {
   }
 
   private loadSpritesInfo(): Observable<any[]> {
-    const params = this._userFilters || {};
-    Object.assign(params, this._autoFilters);
+    const params = {};
+    Object.assign(params, this._userFilters, this._autoFilters);
 
     this._isLoadingSource.next(true);
 

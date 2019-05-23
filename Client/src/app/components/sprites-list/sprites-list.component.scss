@@ -69,14 +69,10 @@
         font-size: 14px;
       }
 
-      .download-button {
-        right: 10px;
-        bottom: 10px;
-      }
-
-      .edit-button {
-        right: 50px;
-        bottom: 10px;
+      .bottom-buttons {
+        .button {
+          margin-right: 5px;
+        }
       }
 
       .button {
@@ -87,8 +83,6 @@
         color: $dark-text-color;
         background-color: $medium-background;
         border-radius: 3px;
-
-        position: absolute;
 
         &:hover {
           background-color: $light-background;

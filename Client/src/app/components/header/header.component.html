@@ -1,15 +1,15 @@
 <div>
   <div class="logo-container">
-    <a class="logo-link" href='#'>
-      <img src="../../../assets/logo.png">
+    <a class="logo-link" [routerLink]="['sprites/search']">
+      <img alt="Sprite Cat" src="../../../assets/logo.png">
       <span class="logo-text">Sprite Cat</span>
     </a>
 
     <div style="flex-grow: 1"></div>
 
     <nav class="main-menu">
-      <a [routerLink]="['/sprites/search']" [routerLinkActive]="['activeRoute']" class="material-icons">search</a>
-      <a [routerLink]="['/sprites/categories']" [routerLinkActive]="['activeRoute']" class="material-icons">folder</a>
+      <a [routerLink]="['/sprites/search']" [routerLinkActive]="['activeRoute']" class="material-icons link">search</a>
+      <a [routerLink]="['/sprites/categories']" [routerLinkActive]="['activeRoute']" class="material-icons link">folder</a>
     </nav>
 
   </div>
