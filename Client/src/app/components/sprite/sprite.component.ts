@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SpriteInfo} from "../../../../../Server/src/spriteInfo";
 
 @Component({
   selector: 'app-sprite',
@@ -8,7 +7,7 @@ import {SpriteInfo} from "../../../../../Server/src/spriteInfo";
 })
 export class SpriteComponent implements OnInit {
 
-  @Input() sprite: SpriteInfo;
+  @Input() sprite: any;
 
   constructor() { }
 

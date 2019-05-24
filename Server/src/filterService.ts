@@ -35,7 +35,15 @@ export class FilterService {
     }
 
     private static checkByWord(file: SpriteInfo, word: string): boolean {
-        return file.name.toLowerCase().includes(word);
+        if (file.name.toLowerCase().includes(word)) 
+            return true;
+        
+        if (file.projectMeta && 
+            file.projectMeta.tags && 
+            file.projectMeta.tags.some((tag: string) => tag.includes(word))) 
+            return true;
+        
+        return false;
     }
 
     private static byAlpha(files: SpriteInfo[], filterString: string): SpriteInfo[] {

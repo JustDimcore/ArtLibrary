@@ -1,17 +1,17 @@
 import * as express from 'express';
-import {Response, Request, RequestHandler} from 'express';
+import {Request, RequestHandler, Response} from 'express';
 import * as path from 'path';
 import * as jwtExpress from 'express-jwt';
 import * as jwt from 'jsonwebtoken';
-import { NextFunction } from 'connect';
+import {NextFunction} from 'connect';
 
 import {FilterService} from './filterService';
-import { FileService } from './filesService';
-import { SpriteMetaService } from './spriteMetaService';
-import { PreviewService } from './previewService';
-import { SpriteInfo } from './spriteInfo';
-import { GoogleSevice } from './google-util';
-import { AccessService, Permission } from './accessService';
+import {FileService} from './filesService';
+import {SpriteMetaService} from './spriteMetaService';
+import {PreviewService} from './previewService';
+import {SpriteInfo} from './spriteInfo';
+import {GoogleSevice} from './google-util';
+import {AccessService, Permission} from './accessService';
 
 
 export class Routing {
@@ -38,6 +38,7 @@ export class Routing {
         const accessService = new AccessService();
 
         let spritesList: SpriteInfo[];
+        let tagsCache: string[] = [];
 
 
         app.post('/auth', (req, res, next) => {
@@ -87,7 +88,9 @@ export class Routing {
             });
         }
 
-
+        app.get('/tags', [this.authorize(), (req: Request, res: Response) => {
+            res.send(tagsCache);
+        }] as RequestHandler[]);
 
         app.get('/search', [this.authorize(), (req: Request, res: Response) => {
             const filtered = req.query ? filterService.filter(spritesList, req.query) : spritesList;
@@ -118,6 +121,16 @@ export class Routing {
             (async () => {
                 const sprites = await Promise.all(filesPromises);
                 await previewService.updatePreviews(sprites, true);
+                
+                const tags = sprites
+                    .filter(s => s.projectMeta && s.projectMeta.tags)
+                    .map(s => s.projectMeta.tags)
+                    .reduce(function(a, b){ return a.concat(b);});
+
+                // add tags
+                tagsCache = tagsCache.concat(tags);
+                // leave unique tags only
+                tagsCache = Array.from(new Set(tagsCache));
             })();
         });
 
@@ -136,7 +149,16 @@ export class Routing {
             spritesList = await fileService.getFilePaths();
             console.log(`got files list: ${spritesList.length} files`);
 
-            previewService.updatePreviews(spritesList, true);
+            await previewService.updatePreviews(spritesList, true);
+
+            const tags = spritesList
+                .filter(s => s.projectMeta && s.projectMeta.tags)
+                .map(s => s.projectMeta.tags)
+                .reduce(function(a, b){ return a.concat(b);});
+
+            // leave unique tags only
+            tagsCache = Array.from(new Set(tags));
+            
             app.listen(port, () => {
                 console.log(`Listening on port ${port}!`);
             });

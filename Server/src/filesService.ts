@@ -61,7 +61,7 @@ export class FileService {
     sprite.path = filePath;
     sprite.name = path.basename(filePath);
     sprite.meta = await sharp(fullPath).metadata();
-    sprite.projectMeta = this._projectMetaService.getSpriteMeta(fullPath);
+    sprite.projectMeta = await this._projectMetaService.getSpriteMeta(fullPath);
     const stat = await promisify(fs.stat)(fullPath);
     sprite.lastUpdate = stat.mtimeMs;
 
