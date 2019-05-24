@@ -27,6 +27,7 @@
               "src/android-chrome-192x192.png",
               "src/android-chrome-256x256.png",
               "src/manifest.json",
+              "src/app/misc/ads.js",
               "src/assets",
               {
                 "glob": "**/*",
