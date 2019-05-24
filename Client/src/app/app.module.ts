@@ -1,6 +1,13 @@
 import { BrowserModule} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatFormFieldModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatToolbarModule
+} from '@angular/material';
 import { BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -54,15 +61,16 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NoopAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatIconModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [{

@@ -92,4 +92,9 @@ export class HeaderComponent implements OnInit {
   setExample() {
     this.form.controls['search'].setValue(this.searchExample);
   }
+
+  clearSearch() {
+    if (this.form.controls['search'].value)
+      this.form.controls['search'].setValue(undefined);
+  }
 }

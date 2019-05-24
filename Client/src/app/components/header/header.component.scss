@@ -4,13 +4,13 @@
   display: block;
 }
 
-:host > div {
+:host {
   background-color: $light-background;
   border: $light-border;
   height: 100%;
   box-sizing: border-box;
-
   position: relative;
+  display: flex;
 }
 
 .logo-container {
@@ -88,29 +88,32 @@
 }
 
 .search-form {
-  position: absolute;
-  left: $side-panel-width;
   margin-left: 20px;
   height: 100%;
   display: flex;
-  right: 245px;
-  top: 0;
+  align-items: center;
+
+  width: calc(100vw - 520px);
 
   input {
     flex-grow: 1;
     height: 34px;
-    top: 12px;
     position: relative;
     padding: 7px;
     box-sizing: border-box;
+  }
+
+  .mdi-close {
+    position: relative;
+    right: 16px;
+    margin: -10px;
+    font-size: 20px;
   }
 }
 
 .help-button {
   position: relative;
   margin-left: 5px;
-  position: relative;
-  top: 15px;
 
   .mdi {
     font-size: 20px;

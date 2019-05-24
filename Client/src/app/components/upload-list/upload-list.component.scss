@@ -1,14 +1,15 @@
 @import "../../../variables";
 
 
+:host {
+  display: flex;
+  align-items: center;
+}
+
 .upload {
   font-size: 32px;
-  color: $text-color;
-  display: inline-block;
-  position: absolute;
-  right: 12px;
-  top: 8px;
   white-space: nowrap;
+  position: relative;
 
   .mdi-upload {
     &:hover {
