@@ -3,7 +3,7 @@
 
   <div class="content-holder">
 
-    <div fxLayout="row" *ngIf="(childRoute | async) === 'search'">
+    <div class="sprites-search" fxLayout="row" *ngIf="(childRoute | async) === 'search'">
       <app-side-menu></app-side-menu>
       <app-sprites-list></app-sprites-list>
     </div>

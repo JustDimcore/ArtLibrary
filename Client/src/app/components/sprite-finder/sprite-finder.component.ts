@@ -1,7 +1,7 @@
-import {Component, OnInit, HostListener, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, HostListener} from '@angular/core';
 import {UploadService} from '../../services/upload.service';
 import {FilterService} from '../../services/filter.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 

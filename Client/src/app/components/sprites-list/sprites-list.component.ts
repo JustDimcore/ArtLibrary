@@ -2,8 +2,7 @@ import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/c
 import {Observable} from 'rxjs/index';
 import {FilterService} from '../../services/filter.service';
 import { UploadService } from '../../services/upload.service';
-import {take, skip, map} from "rxjs/operators";
-import {ActivatedRoute} from "@angular/router";
+import {take, skip} from "rxjs/operators";
 
 @Component({
   selector: 'app-sprites-list',
@@ -27,7 +26,7 @@ export class SpritesListComponent implements OnInit {
       });
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('scroll', ['$event'])
   scroll(event) {
     const content = this._container.nativeElement;
     const bounds = content.getBoundingClientRect();

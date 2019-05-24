@@ -22,6 +22,7 @@ import { GoogleAuthComponent } from './components/google-auth/google-auth.compon
 import { HasTokenGuard} from './misc/has-token.guard';
 import { RequestInterceptor } from './misc/request.interceptor';
 import { SecurePipe } from './pipes/secure.pipe';
+import { SpriteComponent } from './components/sprite/sprite.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
     ProgressPipe,
     LoginComponent,
     GoogleAuthComponent,
-    SecurePipe
+    SecurePipe,
+    SpriteComponent
   ],
   imports: [
     BrowserModule,
