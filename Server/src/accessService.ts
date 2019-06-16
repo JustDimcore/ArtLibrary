@@ -17,7 +17,6 @@ export class AccessService {
     private _permissions: {[email: string]: Permission[]} = {};
     private _googleService: GoogleService;
 
-
     constructor(private _app: express.Express, private _enableGoogleAuth: boolean) {
         if (_enableGoogleAuth) {
             this._googleService = new GoogleService();
@@ -34,34 +33,31 @@ export class AccessService {
 
     private processGoogleAuth() {
 
-        this._app.post('/google-auth', (req: Request, res: Response) => {
+        this._app.post('/google-auth', async(req: Request, res: Response) => {
 
             const code = req.body['code'];
             if (!code) {
                 res.status(401).send('Invalid code');
             }
 
-            this._googleService.getGoogleAccountFromCode(code)
+            const account: {hd: string, email: string} = await this._googleService.getGoogleAccountFromCode(code)
                 .catch((error) => {
                     console.log(error);
                     res.status(401).send(error);
-                })
-                .then((account: {hd: string, email: string}) => {
-                    console.log(account);
-
-                    const userPermissions = this.getUserPermissions(account.email);
-
-                    if (!userPermissions) {
-                        this.grantPermissions(account.email, Permission.View);
-                    }
-
-                    const hasPermissions = this.hasPermission(account.email, Permission.View);
-
-                    const token = jwt.sign({ sub: account.email, role: 'Admin' }, 'shhhhhhared-secret');
-                    console.log(token);
-
-                    res.status(hasPermissions ? 200 : 403).send(hasPermissions ? {token} : { error: 'access denied' });
                 });
+
+            console.log(account);
+
+            const userPermissions = this.getUserPermissions(account.email);
+            if (!userPermissions) {
+                this.grantPermissions(account.email, Permission.View);
+            }
+
+            const hasPermissions = this.hasPermission(account.email, Permission.View);
+
+            const token = jwt.sign({ sub: account.email, role: 'Admin' }, 'shhhhhhared-secret');
+
+            res.status(hasPermissions ? 200 : 403).send(hasPermissions ? {token} : { error: 'access denied' });
         });
     }
 
