@@ -1,13 +1,9 @@
 import { google } from 'googleapis';
 import { OAuth2Client } from 'googleapis-common';
 
-export class GoogleSevice {
+export class GoogleService {
     
-    private googleConfig = {
-        clientId: 'client-id',
-        clientSecret: 'client-secret',
-        redirect: 'redirect-url'
-    };
+    private googleConfig = require('../google-config.json');
 
     private defaultScope = [
         'https://www.googleapis.com/auth/plus.me',

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import {Request, RequestHandler, Response} from 'express';
-import {GoogleSevice} from './googleService';
+import {GoogleService} from './googleService';
 import * as jwtExpress from 'express-jwt';
 import {NextFunction} from 'connect';
 
@@ -15,12 +15,12 @@ export enum Permission {
 export class AccessService {
 
     private _permissions: {[email: string]: Permission[]} = {};
-    private _googleService: GoogleSevice;
+    private _googleService: GoogleService;
 
 
     constructor(private _app: express.Express, private _enableGoogleAuth: boolean) {
         if (_enableGoogleAuth) {
-            this._googleService = new GoogleSevice();
+            this._googleService = new GoogleService();
             this.processGoogleAuth();
         }
     }
