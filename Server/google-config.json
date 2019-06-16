@@ -1,5 +1,9 @@
 {
   "clientId": "<Client-ID>",
   "clientSecret": "<Client-Secret>",
-  "redirect": "<Redirect-URL>"
+  "redirect": "<Redirect-URL>",
+  "defaultScope": [
+    "https://www.googleapis.com/auth/plus.me",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
 }

@@ -3,12 +3,7 @@ import { OAuth2Client } from 'googleapis-common';
 
 export class GoogleService {
     
-    private googleConfig = require('../google-config.json');
-
-    private defaultScope = [
-        'https://www.googleapis.com/auth/plus.me',
-        'https://www.googleapis.com/auth/userinfo.email',
-    ];
+    private _googleConfig = require('../google-config.json');
 
     /**
      * Create the google url to be sent to the client.
@@ -44,9 +39,9 @@ export class GoogleService {
 
     private createConnection(): OAuth2Client {
         return new google.auth.OAuth2(
-            this.googleConfig.clientId,
-            this.googleConfig.clientSecret,
-            this.googleConfig.redirect
+            this._googleConfig.clientId,
+            this._googleConfig.clientSecret,
+            this._googleConfig.redirect
         );
     }
   
@@ -54,7 +49,7 @@ export class GoogleService {
       return auth.generateAuthUrl({
         access_type: 'offline',
         prompt: 'consent', // access type and approval prompt will force a new refresh token to be made each time signs in
-        scope: this.defaultScope
+        scope: this._googleConfig.defaultScope
       });
     }
 }
