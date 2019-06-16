@@ -4,9 +4,9 @@ import { OAuth2Client } from 'googleapis-common';
 export class GoogleSevice {
     
     private googleConfig = {
-        clientId: '982744768591-7q3jl2e5uvc67hmti4bcff060jcmq12b.apps.googleusercontent.com',
-        clientSecret: 'JmOMnQbZrsnhqCpmKIMmdcku',
-        redirect: 'http://dimcore-37633.portmap.host:37633/google-auth'
+        clientId: 'client-id',
+        clientSecret: 'client-secret',
+        redirect: 'redirect-url'
     };
 
     private defaultScope = [
