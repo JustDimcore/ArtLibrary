@@ -6,7 +6,7 @@ import {promisify} from 'util';
 import {SpriteInfo} from './model/spriteInfo';
 import {SpriteMetaService} from './spriteMetaService';
 
-export class FilesService {
+export class SpriteService {
 
     private _filesList: SpriteInfo[];
     private _isDirty = true;

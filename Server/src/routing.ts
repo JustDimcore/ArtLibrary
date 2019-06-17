@@ -3,7 +3,7 @@ import * as path from 'path';
 import {Request, RequestHandler, Response} from 'express';
 
 import {FilterService} from './filterService';
-import {FilesService} from './filesService';
+import {SpriteService} from './spriteService';
 import {SpriteMetaService} from './spriteMetaService';
 import {PreviewService} from './previewService';
 import {SpriteInfo} from './model/spriteInfo';
@@ -15,7 +15,7 @@ export class Routing {
 
     private _tagService: TagService;
     private _previewService: PreviewService;
-    private _spriteService: FilesService;
+    private _spriteService: SpriteService;
     private _filterService: FilterService;
     private _accessService: AccessService;
 
@@ -46,7 +46,7 @@ export class Routing {
 
         // Create services
         this._tagService = new TagService();
-        this._spriteService = new FilesService(fullArtPath, projectMetaService);
+        this._spriteService = new SpriteService(fullArtPath, projectMetaService);
         this._previewService = new PreviewService(fullArtPath, fullPreviewPath);
         this._filterService = new FilterService();
         this._accessService = new AccessService(app, enableGoogleAuth);
