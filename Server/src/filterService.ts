@@ -1,4 +1,4 @@
-import { SpriteInfo } from './spriteInfo';
+import { SpriteInfo } from './model/spriteInfo';
 
 type Filter = (files: any[], filterString: string) => any[];     
 

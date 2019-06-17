@@ -1,4 +1,4 @@
-import { Metadata } from "sharp";
+import { Metadata } from 'sharp';
 
 export class SpriteInfo {
     name: string;

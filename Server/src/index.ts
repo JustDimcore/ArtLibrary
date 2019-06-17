@@ -18,5 +18,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const routing = new Routing(app);
+routing.init();
 
 errorHandling.handle(app);

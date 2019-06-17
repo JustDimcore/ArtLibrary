@@ -1,4 +1,4 @@
-import { SpriteInfo } from './spriteInfo';
+import { SpriteInfo } from './model/spriteInfo';
 import * as fs from 'fs';
 import * as path from 'path';
 import { OutputInfo } from 'sharp';
@@ -33,7 +33,7 @@ export class PreviewService {
     await this.createPreviews(sprites);
   }
 
-  public async init(missingOnly: boolean) {
+  private async init(missingOnly: boolean) {
     const exists = await promisify(fs.exists)(this._previewsPath);
     if (exists && !missingOnly) {
       await del(this._previewsPath);
