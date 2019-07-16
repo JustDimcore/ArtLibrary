@@ -4,6 +4,8 @@ import {FilterService} from '../../services/filter.service';
 import {ActivatedRoute} from '@angular/router';
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import {UploadDialogComponent} from "../upload-dialog/upload-dialog.component";
 
 @Component({
   selector: 'app-sprite-finder',
@@ -17,13 +19,16 @@ export class SpriteFinderComponent implements OnInit {
 
   private _dragCounter = 0;
 
-  constructor(private _uploadService: UploadService, private _filterService: FilterService, private route: ActivatedRoute) {
+  constructor(private _uploadService: UploadService,
+              private _filterService: FilterService,
+              private _route: ActivatedRoute,
+              private _matDialog: MatDialog) {
     this._filterService.onRefresh
       .subscribe(() => {
         document.documentElement.scrollTop = 0;
       });
 
-    this.childRoute = route.params.pipe(
+    this.childRoute = _route.params.pipe(
       map(({child}) => child)
     );
   }
@@ -71,7 +76,25 @@ export class SpriteFinderComponent implements OnInit {
     event.preventDefault();
     this.showFileDropArea = false;
     this._dragCounter = 0;
-    this._uploadService.upload(event.dataTransfer.files);
-    this._uploadService.showList(true);
+    // TODO: Show upload dialog
+    this.openUploadDialog(event.dataTransfer.files);
+
+    //this._uploadService.upload(event.dataTransfer.files);
+    //this._uploadService.showList(true);
+  }
+
+  private openUploadDialog(files: FileList) {
+    const dialogRef = this._matDialog.open(UploadDialogComponent, {
+      width: '70vw',
+      data: {files: files},
+    } as MatDialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result) {
+        this._uploadService.upload(files);
+        this._uploadService.showList(true);
+      }
+    });
   }
 }

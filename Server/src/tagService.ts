@@ -1,10 +1,15 @@
 export class TagService {
 
+    private _categoriesCache: string[] = [];
     private _tagsCache: string[] = [];
 
 
     public getTags() {
         return this._tagsCache;
+    }
+
+    public getCategories() {
+        return this._categoriesCache;
     }
 
     public updateTagsCache(spritesList: any[]) {
@@ -21,5 +26,20 @@ export class TagService {
         // leave unique tags only
         // TODO: Optimize it
         this._tagsCache = Array.from(new Set<string>(this._tagsCache));
+    }
+
+    public updateCategoriesCache(spritesList: any[]) {
+        const categories = spritesList
+            .filter(s => s.projectMeta && s.projectMeta.category)
+            .map(s => s.projectMeta.category);
+
+        this.addCategories(categories);
+    }
+
+    public addCategories(categories: string[]) {
+        this._categoriesCache = this._categoriesCache.concat(categories);
+        // leave unique tags only
+        // TODO: Optimize it
+        this._categoriesCache = Array.from(new Set<string>(this._categoriesCache));
     }
 }

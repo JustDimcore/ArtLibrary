@@ -30,6 +30,9 @@ import { HasTokenGuard} from './misc/has-token.guard';
 import { RequestInterceptor } from './misc/request.interceptor';
 import { SecurePipe } from './pipes/secure.pipe';
 import { SpriteComponent } from './components/sprite/sprite.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { UsersComponent } from './components/users/users.component';
+import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -56,7 +59,10 @@ const appRoutes: Routes = [
     LoginComponent,
     GoogleAuthComponent,
     SecurePipe,
-    SpriteComponent
+    SpriteComponent,
+    CategoriesComponent,
+    UsersComponent,
+    UploadDialogComponent
   ],
   imports: [
     BrowserModule,

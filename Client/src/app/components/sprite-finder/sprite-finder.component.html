@@ -8,9 +8,9 @@
       <app-sprites-list></app-sprites-list>
     </div>
 
-    <div *ngIf="(childRoute | async) === 'categories'">
-      Categories
-    </div>
+    <app-categories *ngIf="(childRoute | async) === 'categories'"></app-categories>
+    <app-users *ngIf="(childRoute | async) === 'users'"></app-users>
+    <div *ngIf="(childRoute | async) === 'trash'">Under construction</div>
 
   </div>
 

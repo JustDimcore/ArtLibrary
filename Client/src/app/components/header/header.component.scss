@@ -33,6 +33,16 @@
       position: relative;
     }
 
+    .alpha-test {
+      color: #ff0000bd;
+      font-size: 14px;
+      display: inline-block;
+      position: absolute;
+      left: 112px;
+      top: 29px;
+      font-weight: bold;
+    }
+
     img {
       max-height: 35px;
       margin: 5px 10px 5px 5px;
@@ -70,8 +80,12 @@
   a {
     padding: 5px;
     margin: 1px;
+    width: 24px;
+    height: 24px;
     border-radius: 2px;
     text-decoration: none;
+    text-align: center;
+    position: relative;
 
     &:active {
       background-color: $button-active;
@@ -80,6 +94,12 @@
     &:hover {
       background-color: $button-hover;
     }
+  }
+
+  .users {
+    font-size: 24px;
+    position: relative;
+    top: -4px;
   }
 
   .activeRoute {

@@ -57,6 +57,7 @@ export class Routing {
         console.log(`got files list: ${spritesList.length} files`);
 
         this._tagService.updateTagsCache(spritesList);
+        this._tagService.updateCategoriesCache(spritesList);
         await this._previewService.updatePreviews(spritesList, true);
     }
 
@@ -65,7 +66,10 @@ export class Routing {
         app.get('/config', (req: Request, res: Response) => res.send(this._accessService.getAuthConfig()));
 
         app.get('/tags', [this._accessService.authorize(), (req: Request, res: Response) => {
-            res.send(this._tagService.getTags());
+            res.send({
+                tags: this._tagService.getTags(),
+                categories: this._tagService.getCategories()
+            });
         }] as RequestHandler[]);
 
         app.get('/search', [this._accessService.authorize(), async (req: Request, res: Response) => {
@@ -92,6 +96,7 @@ export class Routing {
             const sprites = await Promise.all(filesPromises);
             await this._previewService.updatePreviews(sprites, true);
             this._tagService.updateTagsCache(sprites);
+            this._tagService.updateCategoriesCache(sprites);
         }] as RequestHandler[]);
 
         app.use('/art', [this._accessService.authorize(), express.static(path.join(__dirname, 'public/art/'))] as RequestHandler[]);

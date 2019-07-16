@@ -8,6 +8,7 @@
 
 .upload {
   font-size: 32px;
+  width: 46px;
   white-space: nowrap;
   position: relative;
 
@@ -26,7 +27,7 @@
     white-space: nowrap;
     position: absolute;
     top: 55px;
-    right: -9px;
+    right: 4px;
     background-color: $medium-background;
     padding: 12px 20px;
     border-radius: 5px;
