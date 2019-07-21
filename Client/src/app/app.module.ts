@@ -2,6 +2,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -33,6 +34,7 @@ import { SpriteComponent } from './components/sprite/sprite.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { UsersComponent } from './components/users/users.component';
 import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
+import { UploadDialogFileComponent } from './components/upload-dialog-file/upload-dialog-file.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     SpriteComponent,
     CategoriesComponent,
     UsersComponent,
-    UploadDialogComponent
+    UploadDialogComponent,
+    UploadDialogFileComponent
   ],
   imports: [
     BrowserModule,
@@ -78,12 +81,14 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatMenuModule,
     RouterModule.forRoot(appRoutes),
+    MatDialogModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: RequestInterceptor,
     multi: true
   }],
+  entryComponents: [UploadDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

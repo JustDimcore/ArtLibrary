@@ -1,0 +1,8 @@
+<div class="preview-container">
+  <img class="preview" [src]="src" *ngIf="src">
+</div>
+<div class="info-container">
+  <span class="file-name">{{file.name}}</span>
+  <span class="size">{{file.size| size}}</span>
+</div>
+<span class="remove mdi mdi-trash-can-outline link" (click)="remove.emit()"></span>

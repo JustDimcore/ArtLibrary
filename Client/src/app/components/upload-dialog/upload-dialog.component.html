@@ -1,3 +1,11 @@
-<p>
-  upload-dialog works!
-</p>
+<div class="files-container">
+  <app-upload-dialog-file *ngFor="let file of data.files"
+                          [file]="file"
+                          (remove)="remove(file)">
+  </app-upload-dialog-file>
+</div>
+
+<div class="buttons-container">
+  <span class="link confirm" (click)="upload()">Upload</span>
+  <span class="link cancel" (click)="cancel()">Cancel</span>
+</div>

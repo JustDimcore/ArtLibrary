@@ -86,7 +86,7 @@ export class SpriteFinderComponent implements OnInit {
   private openUploadDialog(files: FileList) {
     const dialogRef = this._matDialog.open(UploadDialogComponent, {
       width: '70vw',
-      data: {files: files},
+      data: {files: Array.from(files)},
     } as MatDialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {

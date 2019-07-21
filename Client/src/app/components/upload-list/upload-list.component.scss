@@ -13,6 +13,8 @@
   position: relative;
 
   .mdi-upload {
+    position: relative;
+
     &:hover {
       color: $light-text-color;
     }
