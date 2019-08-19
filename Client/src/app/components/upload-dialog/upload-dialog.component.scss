@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 :host {
   position: relative;
   display: flex;
@@ -9,6 +11,7 @@
 }
 
 .confirm {
+  background-color: $light-background;
 }
 
 .cancel {

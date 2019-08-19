@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject, concat} from 'rxjs/index';
-import {HttpClient, HttpEventType} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {catchError, map, finalize, takeWhile} from 'rxjs/internal/operators';
 import {environment} from '../../environments/environment';
+import {SpriteDto} from "../models/SpriteDto";
 
 export enum UploadStatus {
   Unknown = 0,
@@ -68,8 +69,8 @@ export class FileUploadStatus {
 })
 export class UploadService {
 
-  supportedFormats = ['.png', '.jpeg', '.jpg'];
-  maxFileSize = 1024 * 1024 * 200; // 200 mb
+  supportedFormats = ['.png', '.jpeg', '.jpg']; // TODO: Get it from backend
+  maxFileSize = 1024 * 1024 * 200; // 200 mb // TODO: Get it from backend
 
   allDone = new Subject<boolean>();
 
@@ -88,7 +89,7 @@ export class UploadService {
   }
 
   get uploadListSource(): Observable<FileUploadStatus[]> {
-    return this._uploadList;
+    return this._uploadList.asObservable();
   }
 
   get uploadList(): FileUploadStatus[] {
@@ -103,10 +104,11 @@ export class UploadService {
     this._showUploadMenu.next(show);
   }
 
-  upload(files: FileList) {
+  upload(files: SpriteDto[]) {
     const uploads: FileUploadStatus[] = [];
     for (let i = 0; i < files.length; i++) {
-      const obs = this.postFile(files.item(i));
+      const obs = this.postFile(files[i]);
+      // Notify on events to display on ui
       obs.onCancel.subscribe(() => {
         this.uploadList.splice(this.uploadList.indexOf(obs), 1);
         this._uploadList.next(this.uploadList.slice());
@@ -120,6 +122,7 @@ export class UploadService {
       uploads.push(obs);
     }
 
+    // Start next upload in queue after finish
     const req = concat(...uploads.map(u => u.request))
       .pipe(
         finalize(() => {
@@ -134,6 +137,7 @@ export class UploadService {
       );
 
     this._uploadQueue.push(req);
+    // if no previously started uploads
     if (this._uploadQueue.length === 1) {
       req.subscribe();
     }
@@ -145,21 +149,21 @@ export class UploadService {
     this._uploadList.next(this.uploadList.filter(file => ![UploadStatus.Success, UploadStatus.Failed, UploadStatus.Canceled].includes(file.status.value)).slice());
   }
 
-  private postFile(fileToUpload: File): FileUploadStatus {
+  private postFile(dto: SpriteDto): FileUploadStatus {
     const endpoint = environment.backendUrl + '/upload';
     const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    const headers = {};
+    formData.append('file', dto.file, dto.file.name);
+    formData.append('tags', JSON.stringify(dto.tags));
 
-    const status = new FileUploadStatus(fileToUpload.name, fileToUpload.size);
-    if (!this.isValidExtension(fileToUpload.name)) {
+    const status = new FileUploadStatus(dto.file.name, dto.file.size);
+    if (!this.isValidExtension(dto.file.name)) {
       status.status.next(UploadStatus.Failed);
       status.failReason = FailReason.UnsupportedExtension;
       status.additionalInfo = this.supportedFormats;
       status.request = of(status);
       return status;
     }
-    if (!this.isSizeValid(fileToUpload.size)) {
+    if (!this.isSizeValid(dto.file.size)) {
       status.status.next(UploadStatus.Failed);
       status.failReason = FailReason.FileIsTooBig;
       status.additionalInfo = this.maxFileSize;
@@ -169,10 +173,8 @@ export class UploadService {
 
     status.status.next(UploadStatus.Waiting);
 
-    console.log(formData);
     status.request = this._httpClient
       .post(endpoint, formData, {
-        headers: headers,
         reportProgress: true,
         observe: 'events'
       })

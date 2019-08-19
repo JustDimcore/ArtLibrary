@@ -5,12 +5,24 @@ export class SpriteMetaService {
     async getSpriteMeta(fullPath: string): Promise<{}> { 
         if (await promisify(fs.exists)(fullPath + '.json')) {
             const buffer = await promisify(fs.readFile)(fullPath + '.json');
-            return JSON.parse(buffer.toString('utf8'));
+            try {
+                return JSON.parse(buffer.toString('utf8'));
+            } catch (e) {
+                console.log("Upload error:" + e);
+                return null;
+            }
         }
         return null;
     }
 
-    saveSpriteMeta(fullPath: string, spriteMeta: {}) {
-        fs.writeFileSync(fullPath + '.json', spriteMeta);
+    async saveSpriteMeta(fullPath: string, spriteMeta: {}, fullOverride: boolean = false) {
+        if (!fullOverride) {
+            const meta =  this.getSpriteMeta(fullPath);
+            if(meta) {
+                spriteMeta = Object.assign(meta, spriteMeta);
+            }
+        }
+        console.log(spriteMeta);
+        return promisify(fs.writeFile)(fullPath + '.json', JSON.stringify(spriteMeta));
     }
 }

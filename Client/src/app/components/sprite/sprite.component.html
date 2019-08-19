@@ -5,6 +5,10 @@
     <div class="hidden-sprite-info">
           <span class="info">
             Last update: {{sprite.lastUpdate | date: 'dd/MM/y HH:mm:ss'}}<br>
+            <span *ngIf="sprite.projectMeta && sprite.projectMeta.tags">
+              Tags:
+              <span *ngFor="let tag of sprite.projectMeta.tags">{{tag}}</span>
+            </span>
           </span>
 
       <div class="bottom-buttons">

@@ -26,6 +26,7 @@
     "@angular/router": "~6.0.3",
     "@mdi/font": "^3.6.95",
     "core-js": "^2.5.4",
+    "ngx-chips": "^2.0.2",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

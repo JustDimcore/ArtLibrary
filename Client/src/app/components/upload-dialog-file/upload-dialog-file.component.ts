@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {TagsService} from "../../services/tags.service";
 
 @Component({
   selector: 'app-upload-dialog-file',
@@ -7,15 +8,23 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class UploadDialogFileComponent implements OnInit {
 
-  @Input() file;
+  @Input() sprite;
   @Output() remove = new EventEmitter();
   src: string;
+  autocompleteItems: string[] = [];
+
+  constructor(private _tagsService: TagsService) {
+  }
 
   ngOnInit() {
     const reader = new FileReader();
-    reader.onload = (_event) => {
-      this.src = reader.result;
+    reader.onload = (e) => {
+      this.src = reader.result as string;
     };
-    reader.readAsDataURL(this.file);
+    reader.readAsDataURL(this.sprite.file);
+
+    this._tagsService.tags.subscribe(tags => {
+      this.autocompleteItems = tags;
+    });
   }
 }

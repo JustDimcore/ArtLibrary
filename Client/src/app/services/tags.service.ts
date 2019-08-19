@@ -22,6 +22,7 @@ export class TagsService {
   constructor(private _http: HttpClient) { }
 
   public refreshTags() {
+    // TODO: Add revision checking
     this._http.get(environment.backendUrl + '/tags')
       .subscribe((res: any) => {
         this._tags.next(res.tags);

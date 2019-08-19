@@ -1,7 +1,7 @@
 <div class="files-container">
-  <app-upload-dialog-file *ngFor="let file of data.files"
-                          [file]="file"
-                          (remove)="remove(file)">
+  <app-upload-dialog-file *ngFor="let sprite of sprites"
+                          [sprite]="sprite"
+                          (remove)="remove(sprite)">
   </app-upload-dialog-file>
 </div>
 

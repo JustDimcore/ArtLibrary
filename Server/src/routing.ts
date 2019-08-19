@@ -79,24 +79,19 @@ export class Routing {
         }] as RequestHandler[]);
 
         app.post('/upload', [this._accessService.authorize(), async (req: Request, res: Response) => {
-            if (!req.files || !req.files['fileKey']) {
+            if (!req.files || !req.files['file']) {
                 console.log('No file');
                 res.status(503).send({error: 'No file'});
                 return;
             }
-            const fileKey = req.files['fileKey'];
-            const files = (Array.isArray(fileKey) ? fileKey : [fileKey]) as any[];
 
-            const filesPromises: Promise<SpriteInfo>[] = [];
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                filesPromises.push(this._spriteService.saveSprite(file));
-            }
-
-            const sprites = await Promise.all(filesPromises);
-            await this._previewService.updatePreviews(sprites, true);
-            this._tagService.updateTagsCache(sprites);
-            this._tagService.updateCategoriesCache(sprites);
+            const file = req.files['file'];
+            console.log('upload');
+            const sprite = [await this._spriteService.saveSprite(file, req.params['tags'])];
+            console.log(sprite);
+            await this._previewService.updatePreviews(sprite, false);
+            this._tagService.updateTagsCache(sprite);
+            this._tagService.updateCategoriesCache(sprite);
         }] as RequestHandler[]);
 
         app.use('/art', [this._accessService.authorize(), express.static(path.join(__dirname, 'public/art/'))] as RequestHandler[]);

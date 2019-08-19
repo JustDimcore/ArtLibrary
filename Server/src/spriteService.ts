@@ -34,12 +34,14 @@ export class SpriteService {
         this._isDirty = false;
     }
 
-    public async saveSprite(file: any): Promise<SpriteInfo> {
+    public async saveSprite(file: any, tags: string[] = null): Promise<SpriteInfo> {
         const filePath = path.join(this._dirPath, file.name);
 
         await promisify(fs.writeFile)(filePath, file.data);
         console.log('saved file ' + file.name);
-        const spriteInfo = await this.addSpriteInfo(file.name);
+        await this._projectMetaService.saveSpriteMeta(filePath, {tags});
+        console.log('saved project meta');
+        const spriteInfo = await this.refreshSpriteInfo(file.name);
         console.log('saved sprite info ' + file.name);
         return spriteInfo;
     }
@@ -54,11 +56,11 @@ export class SpriteService {
                 await this.refreshFilesListByPath(path.join(filePath, file));
             }
         } else if (this.isNeededExtension(filePath)) {
-            await this.addSpriteInfo(filePath);
+            await this.refreshSpriteInfo(filePath);
         }
     }
 
-    private async addSpriteInfo(filePath: string) {
+    private async refreshSpriteInfo(filePath: string) {
         const fullPath = path.join(this._dirPath, filePath);
         const sprite = {} as SpriteInfo;
         sprite.path = filePath;

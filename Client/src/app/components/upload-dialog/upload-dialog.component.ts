@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {TagsService} from '../../services/tags.service';
+import {SpriteDto} from "../../models/SpriteDto";
 
 @Component({
   selector: 'app-upload-dialog',
@@ -9,12 +10,21 @@ import {TagsService} from '../../services/tags.service';
 })
 export class UploadDialogComponent implements OnInit {
 
+  sprites: SpriteDto[];
+
   constructor(private _dialogRef: MatDialogRef<UploadDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
+              @Inject(MAT_DIALOG_DATA) private data: any,
               private _tagsService: TagsService) {
   }
 
   ngOnInit() {
+    this.sprites = this.data.files.map(f => {
+      return {
+        file: f,
+        name: f.name,
+        tags: []
+      } as SpriteDto;
+    });
     this._tagsService.refreshTags();
   }
 
@@ -23,12 +33,13 @@ export class UploadDialogComponent implements OnInit {
   }
 
   upload() {
-    this._dialogRef.close(this.data.files);
+    console.log(this.sprites);
+    this._dialogRef.close(this.sprites);
   }
 
-  remove(file) {
-    this.data.files.splice(this.data.files.indexOf(file), 1);
-    if (this.data.files.length <= 0) {
+  remove(sprite) {
+    this.data.files.splice(this.sprites.indexOf(sprite), 1);
+    if (this.sprites.length <= 0) {
       this._dialogRef.close();
     }
   }

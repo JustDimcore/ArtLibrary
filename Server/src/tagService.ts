@@ -1,7 +1,7 @@
 export class TagService {
 
     private _categoriesCache: string[] = [];
-    private _tagsCache: string[] = [];
+    private _tagsCache: string[] = ["Background", "Foreground", "Progress", "Frame", "Border", "Line"];
 
 
     public getTags() {

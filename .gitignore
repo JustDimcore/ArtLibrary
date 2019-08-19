@@ -1,3 +1,6 @@
 Server/node_modules/
 Server/dist/
 .idea/
+Client.DotSettings.user
+Client/src.DotSettings.user
+Server/.vscode/launch.json

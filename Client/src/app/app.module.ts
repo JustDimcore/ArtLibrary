@@ -35,6 +35,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { UsersComponent } from './components/users/users.component';
 import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 import { UploadDialogFileComponent } from './components/upload-dialog-file/upload-dialog-file.component';
+import {TagInputModule} from "ngx-chips";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -81,7 +82,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatMenuModule,
     RouterModule.forRoot(appRoutes),
-    MatDialogModule
+    MatDialogModule,
+    TagInputModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

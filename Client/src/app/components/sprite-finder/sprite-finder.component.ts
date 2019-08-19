@@ -76,23 +76,21 @@ export class SpriteFinderComponent implements OnInit {
     event.preventDefault();
     this.showFileDropArea = false;
     this._dragCounter = 0;
-    // TODO: Show upload dialog
-    this.openUploadDialog(event.dataTransfer.files);
-
-    //this._uploadService.upload(event.dataTransfer.files);
-    //this._uploadService.showList(true);
+    const files = Array.from(event.dataTransfer.files);
+    // TODO: Append files to dialog if it's already open
+    this.openUploadDialog(files);
   }
 
-  private openUploadDialog(files: FileList) {
+  private openUploadDialog(files: File[]) {
     const dialogRef = this._matDialog.open(UploadDialogComponent, {
       width: '70vw',
-      data: {files: Array.from(files)},
+      data: {files},
+      disableClose: true
     } as MatDialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result) {
-        this._uploadService.upload(files);
+        this._uploadService.upload(result);
         this._uploadService.showList(true);
       }
     });
