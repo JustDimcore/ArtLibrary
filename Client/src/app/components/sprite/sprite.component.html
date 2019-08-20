@@ -3,13 +3,13 @@
   <div class="sprite-img-holder">
     <img alt="Loading..." class="sprite-img" [src]="sprite.preview | secure">
     <div class="hidden-sprite-info">
-          <span class="info">
+          <div class="info">
             Last update: {{sprite.lastUpdate | date: 'dd/MM/y HH:mm:ss'}}<br>
-            <span *ngIf="sprite.projectMeta && sprite.projectMeta.tags">
-              Tags:
-              <span *ngFor="let tag of sprite.projectMeta.tags">{{tag}}</span>
-            </span>
-          </span>
+            <div class="tags-container" *ngIf="sprite.projectMeta && sprite.projectMeta.tags">
+              <a [routerLink]="['./']" [queryParams]="{search: tag}" class="tag" *ngFor="let tag of sprite.projectMeta.tags.slice(0,3)">{{tag}}</a>
+              <a *ngIf="sprite.projectMeta.tags.length > 3" (click)="expandTags()" class="tag link">...</a>
+            </div>
+          </div>
 
       <div class="bottom-buttons">
           <span class="link button">

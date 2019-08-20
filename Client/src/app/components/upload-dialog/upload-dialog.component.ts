@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {TagsService} from '../../services/tags.service';
-import {SpriteDto} from "../../models/SpriteDto";
+import {SpriteDto} from '../../models/SpriteDto';
 
 @Component({
   selector: 'app-upload-dialog',

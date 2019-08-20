@@ -11,7 +11,7 @@ export class FilterService {
 
   onRefresh = new Subject();
 
-  private _perPage = 20;
+  private _perPage = 10;
 
   private _spritesSource: BehaviorSubject<any[]> = new BehaviorSubject([]);
   private _isLoadingSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -55,6 +55,7 @@ export class FilterService {
   }
 
   public loadSprites(filter?: any) {
+    console.log('load sprites');
     this._autoFilters.from = 0;
     if (filter) {
       this.updateFilter(filter);

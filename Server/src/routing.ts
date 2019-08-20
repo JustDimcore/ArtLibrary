@@ -86,8 +86,8 @@ export class Routing {
             }
 
             const file = req.files['file'];
-            console.log('upload');
-            const sprite = [await this._spriteService.saveSprite(file, req.params['tags'])];
+            console.log(req.body);
+            const sprite = [await this._spriteService.saveSprite(file, JSON.parse(req.body['tags']))];
             console.log(sprite);
             await this._previewService.updatePreviews(sprite, false);
             this._tagService.updateTagsCache(sprite);

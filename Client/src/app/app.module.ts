@@ -35,7 +35,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { UsersComponent } from './components/users/users.component';
 import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 import { UploadDialogFileComponent } from './components/upload-dialog-file/upload-dialog-file.component';
-import {TagInputModule} from "ngx-chips";
+import {TagInputModule} from 'ngx-chips';
+import { TagsListDialogComponent } from './components/tags-list-dialog/tags-list-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -66,7 +67,8 @@ const appRoutes: Routes = [
     CategoriesComponent,
     UsersComponent,
     UploadDialogComponent,
-    UploadDialogFileComponent
+    UploadDialogFileComponent,
+    TagsListDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,7 @@ const appRoutes: Routes = [
     useClass: RequestInterceptor,
     multi: true
   }],
-  entryComponents: [UploadDialogComponent],
+  entryComponents: [UploadDialogComponent, TagsListDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

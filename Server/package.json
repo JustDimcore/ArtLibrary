@@ -9,7 +9,7 @@
     "start-server": "npm-run-all -s build-ts watch",
     "serve": "node dist/index.js",
     "watch": "npm-run-all --parallel watch-ts watch-node",
-    "watch-node": "nodemon dist/public/client/*.js",
+    "watch-node": "nodemon dist/*.js",
     "watch-ts": "tsc -w",
     "start-full": "npm-run-all --parallel start-server start-client-dev",
     "start-client-dev": "npm run start-on-server --prefix ../Client",
@@ -17,6 +17,9 @@
     "build-client-prod": "npm run build-on-server-prod --prefix ../Client",
     "build-full-dev": "npm-run-all --parallel build-ts build-client",
     "build-full-prod": "npm-run-all --parallel build-ts build-client-prod"
+  },
+  "nodemonConfig": {
+    "ignore": ["dist/public/art/*", "dist/public/preview/*"]
   },
   "author": "Dimcore",
   "license": "MIT",

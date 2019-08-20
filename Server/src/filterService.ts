@@ -29,7 +29,11 @@ export class FilterService {
     }
 
     private static byString(files: SpriteInfo[], filterString: string): SpriteInfo[] {
-        const words = filterString.split(/[\s,]+/).map(param => param.toLowerCase().trim()).filter(w => w);
+        const words = filterString
+            .split(/[\s,]+/)
+            .map(param => param.toLowerCase().trim())
+            .filter(w => w);
+            
         const filtered = files.filter(file => words.some(word => FilterService.checkByWord(file, word)));
         return filtered;
     }

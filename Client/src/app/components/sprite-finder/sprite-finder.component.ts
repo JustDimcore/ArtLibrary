@@ -2,10 +2,10 @@ import {Component, OnInit, HostListener} from '@angular/core';
 import {UploadService} from '../../services/upload.service';
 import {FilterService} from '../../services/filter.service';
 import {ActivatedRoute} from '@angular/router';
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {MatDialog, MatDialogConfig} from "@angular/material";
-import {UploadDialogComponent} from "../upload-dialog/upload-dialog.component";
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {UploadDialogComponent} from '../upload-dialog/upload-dialog.component';
 
 @Component({
   selector: 'app-sprite-finder',
