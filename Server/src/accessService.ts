@@ -91,18 +91,21 @@ export class AccessService {
     }
 
     private getUserPermissions(email: string): AccessType[] {
-        return this._users[email].rights;
+        const user = this._users[email];
+        return user && user.rights;
     }
 
     private grantPermissions(email: string, permissions: AccessType | AccessType[]) {
+        if (!this._users[email]) {
+            this._users[email] = new User();
+        }
+
         let userPermissions = this.getUserPermissions(email);
         if (!userPermissions) {
             userPermissions = [];
-            if (!this._users[email]) {
-                this._users[email] = new User();
-            }
             this._users[email].rights = userPermissions;
         }
+
         if (Array.isArray(permissions)) {
             permissions.forEach(p => this.grantPermission(p, userPermissions));
         } else {

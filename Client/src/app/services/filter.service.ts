@@ -64,10 +64,20 @@ export class FilterService {
     this._load.next();
   }
 
+  public tryLoadNextPage() {
+    if (this.isLoading || this._nothingToLoad) {
+      return;
+    }
+
+    this.loadSpritesInfo().subscribe((res) => {
+      res = this._spritesSource.value.concat(res);
+      this._spritesSource.next(res);
+    });
+  }
+
   private updateFilter(filter: any) {
     Object.assign(this._userFilters, filter);
     this.trimEmptyFilters(this._userFilters);
-
   }
 
   private trimEmptyFilters(filters: any) {
@@ -81,17 +91,6 @@ export class FilterService {
         delete this._userFilters[propName];
       }
     }
-  }
-
-  public tryLoadNextPage() {
-    if (this.isLoading || this._nothingToLoad) {
-      return;
-    }
-
-    this.loadSpritesInfo().subscribe((res) => {
-      res = this._spritesSource.value.concat(res);
-      this._spritesSource.next(res);
-    });
   }
 
   private loadSpritesInfo(): Observable<any[]> {
